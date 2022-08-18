@@ -18,7 +18,7 @@ import { playerReducer } from './state/reducers/player.reducer';
   imports: [
     BrowserModule,
     StoreModule.forRoot({
-      player: playerReducer
+      players: playerReducer
     }, {})
   ],
   providers: [],

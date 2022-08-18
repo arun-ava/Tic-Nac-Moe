@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { IPlayer } from '../models/Player';
 import { Store } from '@ngrx/store';
 import { addPlayerActionCreator, getAllPlayersActionCreator } from '../state/actions/player.actions';
@@ -18,8 +18,8 @@ export class PlayersComponent implements OnInit {
   players: IPlayer[] = [];
   players$: Observable<readonly IPlayer[]> = this._store.select(selectAllPlayers);
 
-  @ViewChild('nameInput') nameInput!: HTMLInputElement;
-  @ViewChild('symbolInput') symbolInput!: HTMLInputElement;
+  @ViewChild('nameInput') nameInput!: ElementRef;
+  @ViewChild('symbolInput') symbolInput!: ElementRef;
 
   constructor(private _store: Store) { }
 
@@ -32,8 +32,8 @@ export class PlayersComponent implements OnInit {
   addPlayer() {
     // this.players.push(new Player(this._name, this._symbol));
     this._store.dispatch(addPlayerActionCreator({player: {
-      name: this.nameInput.value,
-      symbol: this.symbolInput.value 
+      name: this.nameInput.nativeElement.value,
+      symbol: this.symbolInput.nativeElement.value
     } as IPlayer}));
   }
 
