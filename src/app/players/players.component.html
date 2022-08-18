@@ -1,0 +1,13 @@
+<div class="flex-column">
+
+    <div class="flex-row">
+        <input #nameInput type="text" placeholder="Enter Name">
+        <input #symbolInput type="text" placeholder="Enter Symbol">
+        <button (click)="addPlayer()">Add Player</button>
+    </div>
+
+    <div class="flex-column" *ngFor="let player of players$ | async">
+        <span>Name: {{player.name}} </span><br>
+        <span>Symbol: {{player.symbol}} </span><br><br>
+    </div>
+</div>

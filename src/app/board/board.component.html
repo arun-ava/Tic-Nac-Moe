@@ -1,0 +1,12 @@
+<input placeholder="rows">
+<input placeholder="columns">
+
+<table class="board">
+    <tr *ngFor="let row of board">
+        <td *ngFor="let column of row">
+            <span class="cell">
+                {{column}}
+            </span>
+        </td>
+    </tr>
+</table>
