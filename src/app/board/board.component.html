@@ -1,8 +1,8 @@
-<input placeholder="rows">
-<input placeholder="columns">
+ <input #rowSizeInput placeholder="rows" [formControl]="row">
+<input #colSizeInput placeholder="columns" [formControl]="column">
 
 <table class="board">
-    <tr *ngFor="let row of board">
+    <tr *ngFor="let row of board$ | async">
         <td *ngFor="let column of row">
             <span class="cell">
                 {{column}}

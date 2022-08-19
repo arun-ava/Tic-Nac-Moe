@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { debounceTime, pipe } from 'rxjs';
+import { setColumnActionCreator, setRowActionCreator } from '../state/actions/board.actions';
+import { boardDataSelector } from '../state/selectors/board.selector';
 
 /**
  * Events - 
@@ -13,11 +18,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardComponent implements OnInit {
 
-  board = [['1','1'], ['2','2']];
+  @ViewChild('rowSizeInput') rowElement!: ElementRef;
+  @ViewChild('colSizeInput') colElement!: ElementRef;
+
+  row = new FormControl();
+  column = new FormControl();
+
+  board$ = this._store.select(boardDataSelector);
+
+
   
-  constructor() { }
+  constructor(private _store: Store) { }
 
   ngOnInit(): void {
+    this.row.valueChanges.pipe(
+      debounceTime(400),
+    ).subscribe((val: number) => {
+      this._store.dispatch(setRowActionCreator({row: val}));
+    });
+
+    this.column.valueChanges.pipe(
+      debounceTime(400),
+    ).subscribe((val: number) => {
+      this._store.dispatch(setColumnActionCreator({column: val}));
+    });;
   }
 
 }

@@ -1,6 +1,13 @@
-import { IPlayer } from "./Player";
 export interface IBoard {
     board: string[][];
+    rowSize: number;
+    colSize: number;
+}
+
+export interface IMove {
+    row: number;
+    column: number;
+    symbol: string;
 }
 
 export class Board {
