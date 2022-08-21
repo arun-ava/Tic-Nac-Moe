@@ -1,7 +1,5 @@
 export interface IBoard {
     board: string[][];
-    rowSize: number;
-    colSize: number;
 }
 
 export interface IMove {

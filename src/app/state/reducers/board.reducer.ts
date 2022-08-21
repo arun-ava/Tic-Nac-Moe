@@ -1,12 +1,10 @@
 import {createReducer, on} from '@ngrx/store';
-import {IPlayer} from '../../models/Player';
-import { makeMoveActionCreator, setColumnActionCreator, setRowActionCreator } from '../actions/board.actions';
+import { makeMoveActionCreator } from '../actions/board.actions';
+import { startGameActionCreator } from '../actions/game.actions';
 import { IBoard } from '../../models/Board';
 
 export const initialState:Readonly<IBoard> = {
     board: [],
-    colSize: 0,
-    rowSize: 0
 };
 
 export const boardReducer = createReducer(
@@ -17,16 +15,10 @@ export const boardReducer = createReducer(
             board: _markBoard(state.board, move.row, move.column, move.symbol),
         }
     }),
-    on(setRowActionCreator, (state, {row}) => {
+    on(startGameActionCreator, (state, gamestate) => {
         return {
             ...state,
-            rowSize: row,
-        }
-    }),
-    on(setColumnActionCreator, (state, {column}) => {
-        return {
-            ...state,
-            colSize: column,
+            board: getBoard(gamestate.rowSize, gamestate.colSize),
         }
     }),
 );
@@ -34,7 +26,7 @@ export const boardReducer = createReducer(
 
 function _markBoard(board: string[][], row: number, col: number, symbol: string): string[][] {
     return board.map((value: string[], r: number) => {
-        value.map((val: string, c: number) => {
+        return value.map((val: string, c: number) => {
             if(r === row && c === col) {
                 return symbol
             } else {
@@ -42,5 +34,12 @@ function _markBoard(board: string[][], row: number, col: number, symbol: string)
             }
         })
     }) as any; //TODO : fix this. see why map does not return a string[][] even though it is working on a string [][]
+}
 
+function getBoard(row: number, col: number) {
+    let t = [];
+    for(let i=0; i<row; i++) {
+        t.push(new Array<string>(col).fill('x'));
+    }
+    return t;
 }

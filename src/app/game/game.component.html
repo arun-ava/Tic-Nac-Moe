@@ -1,6 +1,8 @@
 <div class="flex-row">
     <div class="flex-column">
  
+        <input placeholder="rows" [formControl]="row">
+        <input placeholder="columns" [formControl]="column">
         <button (click)="startGame()">Start Game</button>
     </div>
         <app-players></app-players>

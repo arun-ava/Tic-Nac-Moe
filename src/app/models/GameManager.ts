@@ -1,5 +1,14 @@
-import { IBoard, Board } from './Board';
+import { IBoard, Board, IMove } from './Board';
 import { IPlayer, Player } from "./Player";
+
+export interface IGameManager {
+    gameid: string;
+    movelist: IMove[];
+    rowSize: number;
+    colSize: number;
+    adjacentElementsToWin: number;
+    winner: Player | undefined;
+}
 
 export class GameManager {
 

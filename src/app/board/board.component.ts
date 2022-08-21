@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { debounceTime, pipe } from 'rxjs';
-import { setColumnActionCreator, setRowActionCreator } from '../state/actions/board.actions';
+import { makeMoveActionCreator } from '../state/actions/board.actions';
 import { boardDataSelector } from '../state/selectors/board.selector';
+import { nextPlayerSelector } from '../state/selectors/game.selector';
+import { IPlayer } from '../models/Player';
 
 /**
  * Events - 
@@ -18,30 +18,33 @@ import { boardDataSelector } from '../state/selectors/board.selector';
 })
 export class BoardComponent implements OnInit {
 
-  @ViewChild('rowSizeInput') rowElement!: ElementRef;
-  @ViewChild('colSizeInput') colElement!: ElementRef;
-
-  row = new FormControl();
-  column = new FormControl();
-
+  
   board$ = this._store.select(boardDataSelector);
 
+  currentPlayer!: IPlayer;
 
-  
   constructor(private _store: Store) { }
 
   ngOnInit(): void {
-    this.row.valueChanges.pipe(
-      debounceTime(400),
-    ).subscribe((val: number) => {
-      this._store.dispatch(setRowActionCreator({row: val}));
+    this._store.select(nextPlayerSelector).subscribe((val) => {
+      this.currentPlayer = val; // todo : see if something cleaner that local state can be done
     });
+    
+  }
 
-    this.column.valueChanges.pipe(
-      debounceTime(400),
-    ).subscribe((val: number) => {
-      this._store.dispatch(setColumnActionCreator({column: val}));
-    });;
+  cellClicked(rowindex:number, colindex:number) {
+    console.log(rowindex);
+    console.log(colindex);
+
+    
+
+    this._store.dispatch(makeMoveActionCreator({
+      move: {
+        column: colindex,
+        row: rowindex,
+        symbol: this.currentPlayer!.symbol
+      }
+    }))
   }
 
 }

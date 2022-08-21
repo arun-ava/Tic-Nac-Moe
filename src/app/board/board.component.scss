@@ -1,8 +1,25 @@
 .board {
     background-color: grey;
     border: 5px solid brown;
+    table-layout: fixed;
+    display: flex;
+    flex-direction: column;
 }
 .cell {
-    background-color: aliceblue;
     // border: 10px solid black;
+    min-height: 40px;
+    min-width: 40px;
+    width: 100%;
+    background-color: grey;
+    
+}
+
+.row {
+}
+
+.column {
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
 }
