@@ -1,25 +1,52 @@
+$border: 2px solid rgb(129, 186, 63);
+
 .board {
-    background-color: grey;
-    border: 5px solid brown;
-    table-layout: fixed;
+    height: 450px; //todo : remove fixed height and width
+    width: 450px;
+    border: $border;
+}
+
+.board-structure {
     display: flex;
     flex-direction: column;
-}
-.cell {
-    // border: 10px solid black;
-    min-height: 40px;
-    min-width: 40px;
-    width: 100%;
-    background-color: grey;
-    
 }
 
 .row {
 }
 
-.column {
-    display: flex;
-    justify-content: center;
-    justify-items: center;
-    align-items: center;
+.row-structure {
+    display: flex; 
+    flex-direction: row; 
+    flex-grow: 1;
 }
+
+.column {
+    border: $border;
+}
+
+.column-structure {
+    background-color: cornsilk;
+    flex-grow: 1;
+    display: flex;  // TODO : why is display: flex needed for margin: auto to place div in center? and why margin: auto wokring seperately for <p> and <div> even though both are block elements
+
+}
+
+.column-structure:hover {
+    background-color: peru;
+}
+
+.cell {
+    margin: auto;
+    // font-size: 26px;
+    font-size: 5vw;
+    color: rgba(182, 8, 8, 0.814);
+    font-weight: bolder;
+    text-align: center;
+}
+
+.cell-structure {
+    height: 6vh; //todo: find reason behind these fixed values which worked
+    width: 4vw; //todo: clear concept on vw and how it takes its parent.  check why fixed width needs to be set to prevent resiizing on click bug with O and $. width: auto does not work but 14px does why??
+}
+
+

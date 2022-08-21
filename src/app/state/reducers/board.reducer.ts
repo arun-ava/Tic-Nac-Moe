@@ -39,7 +39,7 @@ function _markBoard(board: string[][], row: number, col: number, symbol: string)
 function getBoard(row: number, col: number) {
     let t = [];
     for(let i=0; i<row; i++) {
-        t.push(new Array<string>(col).fill('x'));
+        t.push(new Array<string>(col).fill(' '));
     }
     return t;
 }

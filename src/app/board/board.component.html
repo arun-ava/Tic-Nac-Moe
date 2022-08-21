@@ -10,12 +10,10 @@
     </tr>
 </table> -->
 
-<div style="display: flex; flex-direction: column;">
-    <div class = "row" style="display: flex; flex-direction: row; flex-grow: 1; justify-content: space-between;" *ngFor="let row of board$ | async; let r=index;">
-        <div class="column" *ngFor="let column of row; let c=index;">
-            <div class="cell" (click)="cellClicked(r,c)">
-                {{column}}
-            </div>
+<div class='board board-structure' >
+    <div class = "row row-structure" *ngFor="let row of board$ | async; let r=index;">
+        <div class="column column-structure" *ngFor="let column of row; let c=index;" (click)="cellClicked(r,c)">
+               <div class="cell cell-structure">{{column}}</div> 
         </div>
     </div>
 </div>

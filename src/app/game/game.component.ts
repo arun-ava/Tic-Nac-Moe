@@ -1,11 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { combineLatest, debounceTime, distinctUntilChanged, map, merge } from 'rxjs';
-import { IPlayer } from '../models/Player';
-import { startGameActionCreator, checkBoardActionCreator, setWinnerActionCreator } from '../state/actions/game.actions';
-import { boardDataSelector } from '../state/selectors/board.selector';
-import { selectGame, winnerNotifier } from '../state/selectors/game.selector';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { startGameActionCreator, setWinnerActionCreator } from '../state/actions/game.actions';
+import { winnerNotifier } from '../state/selectors/game.selector';
 
 /**
  * Events -
@@ -21,9 +19,11 @@ export class GameComponent implements OnInit {
 
   row = new FormControl();
   column = new FormControl();
+  adjacent = new FormControl();
 
   rowsize = 0;
   colsize = 0;
+  adjsize = 0;
 
   constructor(private _store: Store) { }
 
@@ -38,6 +38,12 @@ export class GameComponent implements OnInit {
       debounceTime(400),
     ).subscribe((val: string) => {
       this.colsize = Number.parseInt(val);
+    });
+
+    this.adjacent.valueChanges.pipe(
+      debounceTime(400),
+    ).subscribe((val: string) => {
+      this.adjsize = Number.parseInt(val);
     });
 
     // combineLatest([
@@ -57,22 +63,28 @@ export class GameComponent implements OnInit {
     //   ));
     // }); // TODO : the events are getting logged multiple times coudnlt fix with combinelates or any other rxjs ops. find other way
 
-    this._store.select(winnerNotifier).pipe(distinctUntilChanged()).subscribe((val: IPlayer | undefined) => {
+    this._store.select(winnerNotifier).pipe(
+      distinctUntilChanged(),
+      filter((val) => {
+        return val !== undefined
+      })
+      ).subscribe((val: any) => {
       console.log("Winner is : ", val);
-      if(val) {
-        this._store.dispatch(setWinnerActionCreator(val));
-      }
-      
+      this._store.dispatch(setWinnerActionCreator(val));
     })
 
     this.row.setValue('8');
     this.column.setValue('8');
+
+    setTimeout(() => {
+      this.startGame();
+    }, 500);
   }
 
   startGame() {
     this._store.dispatch(startGameActionCreator({
       gameid: 'id - ' + Math.trunc(Math.random() * 10000000000),
-      adjacentElementsToWin: 0,
+      adjacentElementsToWin: this.adjsize,
       colSize: this.colsize,
       rowSize: this.rowsize,
       movelist: [],
