@@ -12,13 +12,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { gameReducer } from './state/reducers/game.reducer';
+import { Diagonals } from './diagonals/diagonal.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     GameComponent,
     PlayersComponent,
-    BoardComponent
+    BoardComponent,
+    Diagonals
   ],
   imports: [
     BrowserModule,

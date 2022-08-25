@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { startGameActionCreator, setWinnerActionCreator } from '../state/actions/game.actions';
+import { legalMoveNotifier } from '../state/selectors/board.selector';
 import { winnerNotifier } from '../state/selectors/game.selector';
 
 /**
@@ -71,7 +72,11 @@ export class GameComponent implements OnInit {
       ).subscribe((val: any) => {
       console.log("Winner is : ", val);
       this._store.dispatch(setWinnerActionCreator(val));
-    })
+    });
+
+    // legalMoveNotifier.
+
+    this._store.subscribe()
 
     this.row.setValue('8');
     this.column.setValue('8');

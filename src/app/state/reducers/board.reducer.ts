@@ -7,6 +7,8 @@ export const initialState:Readonly<IBoard> = {
     board: [],
 };
 
+const initialCellValue = '';
+
 export const boardReducer = createReducer(
     initialState,
     on(makeMoveActionCreator, (state, {move}) => {
@@ -27,7 +29,7 @@ export const boardReducer = createReducer(
 function _markBoard(board: string[][], row: number, col: number, symbol: string): string[][] {
     return board.map((value: string[], r: number) => {
         return value.map((val: string, c: number) => {
-            if(r === row && c === col) {
+            if(r === row && c === col && val === initialCellValue) {
                 return symbol
             } else {
                 return val
@@ -39,7 +41,7 @@ function _markBoard(board: string[][], row: number, col: number, symbol: string)
 function getBoard(row: number, col: number) {
     let t = [];
     for(let i=0; i<row; i++) {
-        t.push(new Array<string>(col).fill(' '));
+        t.push(new Array<string>(col).fill(initialCellValue));
     }
     return t;
 }

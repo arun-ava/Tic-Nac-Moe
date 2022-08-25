@@ -13,19 +13,13 @@
 <div class='board board-structure' >
     <div class = "row row-structure" *ngFor="let row of board$ | async; let r=index;">
         <div class="column column-structure" *ngFor="let column of row; let c=index;" (click)="cellClicked(r,c)">
-
-            <div class="cell cell-structure">{{column}}</div> 
-            <div #majordiagonal style="position: absolute;
-transform: rotate(45deg);
-translate: -15px 25px;
-height: 0px;
-width: 9.5vw;
-border-top: 5px solid black;"></div>
-               
+            <ng-container>
+                <div class="cell cell-structure">{{column}}</div> 
+            </ng-container>
         </div>
     </div>
 </div>
-
+<!-- 
 
 <div #majordiagonal style="position: absolute;
 transform: rotate(45deg);
@@ -34,7 +28,7 @@ height: 0px;
 width: 9.5vw;
 border-top: 5px solid black;"></div>
 
-<div #majordiagonal style="position: absolute;
+<div #minordiagonal style="position: absolute;
 transform: rotate(135deg);
 translate: -15px 25px;
 height: 0px;
@@ -42,7 +36,7 @@ width: 9.5vw;
 border-top: 5px solid black;"></div>
 
 <div #horizontal style="position: absolute;
-translate: -15px 25px;
+translate: -5px 25px;
 height: 0px;
 width: 9.5vw;
 border-top: 5px solid black;"></div>
@@ -52,4 +46,4 @@ transform: rotate(90deg);
 translate: -15px 20px;
 height: 0px;
 width: 9.5vw;
-border-top: 5px solid black;"></div>
+border-top: 5px solid black;"></div> -->

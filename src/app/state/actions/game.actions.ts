@@ -17,3 +17,8 @@ export const setWinnerActionCreator = createAction(
     props<IPlayer>(),
 )
 
+export const legalMoveActionCreator = createAction(
+    '[Board] Make Move',
+    props<{move: IMove}>()
+);
+

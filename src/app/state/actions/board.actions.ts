@@ -5,3 +5,4 @@ export const makeMoveActionCreator = createAction(
     '[Board] Make Move',
     props<{move: IMove}>()
 );
+

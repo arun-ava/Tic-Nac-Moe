@@ -1,5 +1,5 @@
 import {createReducer, on} from '@ngrx/store';
-import { startGameActionCreator } from '../actions/game.actions';
+import { legalMoveActionCreator, startGameActionCreator } from '../actions/game.actions';
 import { IGameManager } from '../../models/GameManager';
 import { makeMoveActionCreator } from '../actions/board.actions';
 
@@ -26,7 +26,7 @@ export const gameReducer = createReducer(
          }
     }),
 
-    on(makeMoveActionCreator, (state, {move}) => {
+    on(legalMoveActionCreator, (state, {move}) => {
         return { ...state, movelist: [...state.movelist, move],  };
     }),
 );
