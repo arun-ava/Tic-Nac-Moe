@@ -7,7 +7,7 @@ export const initialState:Readonly<IBoard> = {
     board: [],
 };
 
-const initialCellValue = '';
+export const initialCellValue = '';
 
 export const boardReducer = createReducer(
     initialState,

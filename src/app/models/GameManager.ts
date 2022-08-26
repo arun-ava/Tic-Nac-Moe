@@ -10,6 +10,10 @@ export interface IGameManager {
     winner: Player | undefined;
 }
 
+export interface WinPosition {
+    row: number;
+    col: number;
+}
 export class GameManager {
 
     _players!: Player[];
