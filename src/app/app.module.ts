@@ -13,6 +13,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { gameReducer } from './state/reducers/game.reducer';
 import { Diagonals } from './diagonals/diagonal.directive';
+import { ColLineComponent } from './diagonals/col-line/col-line.component';
+import { MajorDiagonalComponent } from './diagonals/major-diagonal/major-diagonal.component';
+import { MinorDiagonalComponent } from './diagonals/minor-diagonal/minor-diagonal.component';
+import { RowLineComponent } from './diagonals/row-line/row-line.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import { Diagonals } from './diagonals/diagonal.directive';
     GameComponent,
     PlayersComponent,
     BoardComponent,
-    Diagonals
+    Diagonals,
+    MajorDiagonalComponent,
+    MinorDiagonalComponent,
+    RowLineComponent,
+    ColLineComponent
   ],
   imports: [
     BrowserModule,

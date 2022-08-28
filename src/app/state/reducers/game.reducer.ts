@@ -8,7 +8,7 @@ export const initialState:Readonly<IGameManager> = {
     movelist: [],
     colSize: 0,
     rowSize: 0,
-    adjacentElementsToWin: 0,
+    adjacentElementsToWin: 3,
     winner: undefined as any,
 };
 

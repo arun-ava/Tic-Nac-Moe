@@ -1,5 +1,5 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { IGameManager, WinPosition } from '../../models/GameManager';
+import { IGameManager, WinDirection, WinPosition } from '../../models/GameManager';
 import { selectAllPlayers } from './player.selector';
 import { selectBoard } from './board.selector';
 import { initialCellValue } from '../reducers/board.reducer';
@@ -35,21 +35,24 @@ export const winnerNotifier  = createSelector(
     }
 );
 
-export const winningBoardNotifier  = createSelector(
+export const winningPositionsSelector  = createSelector(
     selectGame,
     selectAllPlayers,
     selectBoard,
     currentPlayerSelector,
     (game, players, board, currentPlayer) => {
-        let scratchedBoard = checkboard(game.movelist[game.movelist.length-1]?.row, 
+        let winningPositions = checkboard(game.movelist[game.movelist.length-1]?.row, 
             game.movelist[game.movelist.length-1]?.column, 
             game.movelist[game.movelist.length-1]?.symbol,
             board.board, game.adjacentElementsToWin); 
-            return scratchedBoard.length > 0 ? scratchedBoard : [];
+            return winningPositions.length > 0 ? winningPositions : [];
     }
 );
 
+
 function checkboard(row: number, col: number, symbol: string, board: string[][], match: number) {
+
+    console.log("checkboard invoked. should be called twice per move");
     let rowarr = checkRow(symbol, row, match, board);
     let colarr = checkCol(symbol, col, match, board);
     let majorDiagonal = checkMajorDiagonal(symbol, row, col, match, board);
@@ -70,13 +73,13 @@ function checkboard(row: number, col: number, symbol: string, board: string[][],
 
 function checkRow(symbol: string, row: number, match: number, board: string[][]) {
     let cindex = [];
-    let rindex = new Array<number>(board[row].length).fill(row);
+    let rindex = new Array<number>(board[row]?.length).fill(row);
 
-    for(let i=1; i<=board[row].length; i++) {
+    for(let i=1; i<=board[row]?.length; i++) {
         cindex.push(i-1);
     }
     let mindex = getMaxUptoKAdjacent(board[row], symbol, match);
-    return createWinPositionsUtil(rindex, cindex, mindex);
+    return createWinPositionsUtil(rindex, cindex, mindex, WinDirection.row);
 }
 
 function checkCol(symbol: string, col: number, match: number, board: string[][]) {
@@ -91,7 +94,7 @@ function checkCol(symbol: string, col: number, match: number, board: string[][])
         return val[col]
     });//.filter((value) => { return value !== undefined});
     let mindex = getMaxUptoKAdjacent(b, symbol, match);
-    return createWinPositionsUtil(rindex, cindex, mindex);
+    return createWinPositionsUtil(rindex, cindex, mindex, WinDirection.col);
 }
 
 function checkMajorDiagonal(symbol: string, row: number, col: number, match: number, board: string[][]) {
@@ -114,7 +117,7 @@ function checkMajorDiagonal(symbol: string, row: number, col: number, match: num
     }
 
     let mindex = getMaxUptoKAdjacent(res, symbol, match);
-    return createWinPositionsUtil(rindex, cindex, mindex);
+    return createWinPositionsUtil(rindex, cindex, mindex, WinDirection.major);
 }
 
 function checkMinorDiagonal(symbol: string, row: number, col: number, match: number, board: string[][]) {
@@ -138,15 +141,16 @@ function checkMinorDiagonal(symbol: string, row: number, col: number, match: num
     }
 
     let mindex = getMaxUptoKAdjacent(res, symbol, match);
-    return createWinPositionsUtil(rindex, cindex, mindex);
+    return createWinPositionsUtil(rindex, cindex, mindex, WinDirection.minor);
 }
 
-function createWinPositionsUtil(rindex: number[], cindex: number[], maxKadjArr: number[]): WinPosition[] {
+function createWinPositionsUtil(rindex: number[], cindex: number[], maxKadjArr: number[], windDirection: WinDirection): WinPosition[] {
     let winpositions: WinPosition[] = [];
     maxKadjArr.forEach((val) => {
         winpositions.push({
             row: rindex[val],
-            col: cindex[val]
+            col: cindex[val],
+            windDirection: windDirection,
         });
     });
     return winpositions;

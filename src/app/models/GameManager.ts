@@ -13,7 +13,13 @@ export interface IGameManager {
 export interface WinPosition {
     row: number;
     col: number;
+    windDirection: WinDirection;
 }
+
+export enum WinDirection {
+    'major', 'minor', 'row', 'col'
+}
+
 export class GameManager {
 
     _players!: Player[];

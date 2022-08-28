@@ -6,6 +6,7 @@ export function getMajorDiagonalLine(){
     line.style.height = '0px';
     line.style.width = '9.5vw';
     line.style.borderTop = '5px solid black';
+    return line;
 }
 
 export function getMinorDiagonalLine(){
@@ -16,6 +17,7 @@ export function getMinorDiagonalLine(){
     line.style.height = '0px';
     line.style.width = '9.5vw';
     line.style.borderTop = '5px solid black';
+    return line;
 }
 
 export function getHorizontalLine(){
