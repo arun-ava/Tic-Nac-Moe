@@ -167,7 +167,8 @@ function getMaxUptoKAdjacent(arr: string[]=[], symbol: string, K: number): numbe
     let res: number[]=[];
     let temp: number[]=[];
 
-    for(let i=0; i<arr.length; i++) {
+    // Running till length to iterate once more to find if k elements matched or not
+    for(let i=0; i<=arr.length; i++) {
         if(temp.length === K) {
             res=temp;
             break;

@@ -1,15 +1,4 @@
 
-
-<!-- <table class="board">
-    <tr class = "row" *ngFor="let row of board$ | async">
-        <td class="column" *ngFor="let column of row">
-            <span class="cell">
-                {{column}}
-            </span>
-        </td>
-    </tr>
-</table> -->
-
 <div class='board board-structure' >
     <div class = "row row-structure" *ngFor="let row of board$ | async; let r=index;">
         <div class="column column-structure" *ngFor="let column of row; let c=index;" (click)="cellClicked(r,c)">
@@ -19,6 +8,3 @@
         </div>
     </div>
 </div>
-
-
-SOME CHANGES
