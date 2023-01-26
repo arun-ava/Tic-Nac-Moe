@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
@@ -17,6 +17,8 @@ import { ColLineComponent } from './diagonals/col-line/col-line.component';
 import { MajorDiagonalComponent } from './diagonals/major-diagonal/major-diagonal.component';
 import { MinorDiagonalComponent } from './diagonals/minor-diagonal/minor-diagonal.component';
 import { RowLineComponent } from './diagonals/row-line/row-line.component';
+// import { FaceBookAccountService } from './service/authentication/facebook.auth.service';
+import { facebookSDKInitializer } from './utility/app-initializer';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,14 @@ import { RowLineComponent } from './diagonals/row-line/row-line.component';
     }, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
-  providers: [],
+  providers: [
+    // FaceBookAccountService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => facebookSDKInitializer(),
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

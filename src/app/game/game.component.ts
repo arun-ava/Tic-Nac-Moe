@@ -109,4 +109,11 @@ export class GameComponent implements OnInit {
       }
     });
   }
+
+  fbfriends() {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me/friends', function(response: any) {
+        console.log('Good to see you, ' + (response as any).name + '.');
+      });
+  }
 }
