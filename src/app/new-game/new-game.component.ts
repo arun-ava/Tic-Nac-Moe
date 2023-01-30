@@ -9,9 +9,9 @@ import { AWSService } from '../service/aws.service';
 })
 export class NewGameComponent implements OnInit {
 
-  rows!: number;
-  columns!: number;
-  adjacents!: number;
+  rows: number = 3;
+  columns: number = 3;
+  adjacents: number = 3;
 
   constructor(private _aws: AWSService) { }
 
