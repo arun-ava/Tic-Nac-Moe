@@ -5,7 +5,10 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { startGameActionCreator, setWinnerActionCreator } from '../state/actions/game.actions';
 import { legalMoveNotifier } from '../state/selectors/board.selector';
 import { winnerNotifier } from '../state/selectors/game.selector';
-
+import { MatDialog } from '@angular/material/dialog';
+import { UserRegistrationComponent } from '../user-registration/user-registration.component';
+import { AppConfigService } from '../service/app.config.service';
+import { NewGameComponent } from '../new-game/new-game.component';
 /**
  * Events -
  * 1> Start game
@@ -26,9 +29,14 @@ export class GameComponent implements OnInit {
   colsize = 0;
   adjsize = 0;
 
-  constructor(private _store: Store) { }
+  constructor(
+    private _store: Store,
+    private _dialog: MatDialog,
+    private _appconfig: AppConfigService) { }
 
   ngOnInit(): void {
+    console.log(this._appconfig.getConfig());
+    
     this.row.valueChanges.pipe(
       debounceTime(400),
     ).subscribe((val: string) => {
@@ -115,5 +123,13 @@ export class GameComponent implements OnInit {
       FB.api('/me/friends', function(response: any) {
         console.log('Good to see you, ' + (response as any).name + '.');
       });
+  }
+
+  openRegisterComponent() {
+    this._dialog.open(UserRegistrationComponent);
+  }
+
+  openNewGameComponent() {
+    this._dialog.open(NewGameComponent);
   }
 }

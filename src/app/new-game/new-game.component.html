@@ -1,0 +1,27 @@
+
+
+<h1 mat-dialog-title>
+    New Game
+</h1>
+<div mat-dialog-content>
+    <form>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Enter No. Of Rows</mat-label>
+            <input matInput name="rows" [(ngModel)]="rows">
+        </mat-form-field>
+        
+        <mat-form-field style="width: 100%;">
+            <mat-label>Enter No. Of Columns</mat-label>
+            <input name="columns" matInput [(ngModel)]="columns">
+        </mat-form-field>
+
+        <mat-form-field style="width: 100%;">
+            <mat-label>Enter No. Of Adjacents</mat-label>
+            <input name="adjacents" matInput [(ngModel)]="adjacents">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close secondary>Close</button>
+  <button mat-raised-button primary (click)="startGame()">Start</button>
+</div>

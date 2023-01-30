@@ -1,0 +1,22 @@
+
+
+<h1 mat-dialog-title>
+    User Registration
+</h1>
+<div mat-dialog-content>
+    <form>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Enter Username</mat-label>
+            <input matInput name="username" [(ngModel)]="username">
+        </mat-form-field>
+        
+        <mat-form-field style="width: 100%;">
+            <mat-label>Enter Password</mat-label>
+            <input type="password" name="password" matInput [(ngModel)]="password">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close secondary>Close</button>
+  <button mat-raised-button primary (click)="registerUser()">Register</button>
+</div>

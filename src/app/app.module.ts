@@ -1,6 +1,7 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { GameComponent } from './game/game.component';
 import { PlayersComponent } from './players/players.component';
@@ -19,6 +20,11 @@ import { MinorDiagonalComponent } from './diagonals/minor-diagonal/minor-diagona
 import { RowLineComponent } from './diagonals/row-line/row-line.component';
 // import { FaceBookAccountService } from './service/authentication/facebook.auth.service';
 import { facebookSDKInitializer } from './utility/app-initializer';
+import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { LoginComponent } from './login/login.component';
+import { MaterialModule } from './material.module';
+import { AppConfigService } from './service/app.config.service';
+import { NewGameComponent } from './new-game/new-game.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +36,10 @@ import { facebookSDKInitializer } from './utility/app-initializer';
     MajorDiagonalComponent,
     MinorDiagonalComponent,
     RowLineComponent,
-    ColLineComponent
+    ColLineComponent,
+    UserRegistrationComponent,
+    LoginComponent,
+    NewGameComponent
   ],
   imports: [
     BrowserModule,
@@ -41,16 +50,29 @@ import { facebookSDKInitializer } from './utility/app-initializer';
       board: boardReducer,
       game: gameReducer,
     }, {}),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    MaterialModule,
+    BrowserAnimationsModule,
+    HttpClientModule
   ],
   providers: [
     // FaceBookAccountService,
+    // {
+    //   provide: APP_INITIALIZER,
+    //   useFactory: () => facebookSDKInitializer(),
+    //   multi: true
+    // },
     {
       provide: APP_INITIALIZER,
-      useFactory: () => facebookSDKInitializer(),
+      deps: [AppConfigService],
+      useFactory: (appConfigService: AppConfigService) => {
+        return () => {
+          return appConfigService.initAppConfig();
+        }
+      },
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
