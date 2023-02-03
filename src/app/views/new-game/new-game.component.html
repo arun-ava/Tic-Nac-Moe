@@ -1,9 +1,7 @@
-
-
-<h1 mat-dialog-title>
-    New Game
-</h1>
-<div mat-dialog-content>
+<!-- <h1 mat-dialog-title> -->
+    <h1>New Game</h1>
+<!-- </h1> -->
+<!-- <div mat-dialog-content> -->
     <form>
         <mat-form-field style="width: 100%;">
             <mat-label>Enter No. Of Rows</mat-label>
@@ -20,8 +18,8 @@
             <input name="adjacents" matInput [(ngModel)]="adjacents">
         </mat-form-field>
     </form>
-</div>
-<div mat-dialog-actions>
-  <button mat-raised-button mat-dialog-close secondary>Close</button>
+<!-- </div> -->
+<!-- <div mat-dialog-actions> -->
+  <button mat-raised-button secondary (click)="closeDialog()">Close</button>
   <button mat-raised-button primary (click)="startGame()">Start</button>
-</div>
+<!-- </div> -->

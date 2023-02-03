@@ -8,7 +8,7 @@ import { finalize } from 'rxjs/operators';
 export class AWSService {
     
     private readonly aws_api_gateway_endpoint = 'aws-api-gateway-endpoint';
-    private readonly create_user_endpoint = '/user'
+    private readonly user_base_endpoint = '/user'
 
     constructor(private _httpClient: HttpClient,    
         private _appConfigService: AppConfigService) {
@@ -20,7 +20,7 @@ export class AWSService {
      * @returns - An observable which will give the output of the http request
      */
     createUser(username: string, password: string) {
-        const url = this._appConfigService.getConfig()[this.aws_api_gateway_endpoint] + this.create_user_endpoint;
+        const url = this._appConfigService.getConfig()[this.aws_api_gateway_endpoint] + this.user_base_endpoint;
 
         this._httpClient.post(
             url,
@@ -41,5 +41,25 @@ export class AWSService {
                 console.log("Request complete");
             })
         ).subscribe();
+    }
+
+    getUser(username: string) {
+        const url = this._appConfigService.getConfig()[this.aws_api_gateway_endpoint] + this.user_base_endpoint + '/' + username ;
+
+        return this._httpClient.get(
+            url,
+        ).pipe(
+            map((val) => {
+                console.log("User details fetched ", val);
+                return val;
+            }),
+            catchError(err => {
+                console.log("catchError Error during fetching user ", err);
+                return of(err);
+            }),
+            finalize(() => {
+                console.log("Request complete");
+            })
+        );
     }
 }

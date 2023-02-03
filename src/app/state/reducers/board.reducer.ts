@@ -43,5 +43,7 @@ function getBoard(row: number, col: number) {
     for(let i=0; i<row; i++) {
         t.push(new Array<string>(col).fill(initialCellValue));
     }
+
+    console.log("Created board array ", t);
     return t;
 }

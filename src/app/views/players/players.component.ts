@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { IPlayer } from '../models/Player';
 import { Store } from '@ngrx/store';
-import { addPlayerActionCreator, getAllPlayersActionCreator } from '../state/actions/player.actions';
 import { Observable } from 'rxjs';
-import { selectAllPlayers } from '../state/selectors/player.selector';
+import { IPlayer } from '../../models/Player';
+import { selectAllPlayers } from '../../state/selectors/player.selector';
+import { addPlayerActionCreator } from '../../state/actions/player.actions';
 /**
  * Events
  * 1> Add player

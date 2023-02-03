@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
-import { startGameActionCreator, setWinnerActionCreator } from '../state/actions/game.actions';
-import { legalMoveNotifier } from '../state/selectors/board.selector';
-import { winnerNotifier } from '../state/selectors/game.selector';
 import { MatDialog } from '@angular/material/dialog';
 import { UserRegistrationComponent } from '../user-registration/user-registration.component';
-import { AppConfigService } from '../service/app.config.service';
 import { NewGameComponent } from '../new-game/new-game.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AppConfigService } from '../../service/app.config.service';
+import { setWinnerActionCreator } from '../../state/actions/game.actions';
+import { winnerNotifier } from '../../state/selectors/game.selector';
 /**
  * Events -
  * 1> Start game
@@ -32,10 +32,18 @@ export class GameComponent implements OnInit {
   constructor(
     private _store: Store,
     private _dialog: MatDialog,
-    private _appconfig: AppConfigService) { }
+    private _appconfig: AppConfigService,
+    private _route: ActivatedRoute,
+    private _router: Router) { }
 
   ngOnInit(): void {
     console.log(this._appconfig.getConfig());
+
+    console.log("path param s", this._route.snapshot.queryParamMap.get('gameid'));
+    this._route.queryParams.subscribe((val) =>{
+      console.log('qp  ', val);
+    })
+
     
     this.row.valueChanges.pipe(
       debounceTime(400),
@@ -95,14 +103,7 @@ export class GameComponent implements OnInit {
   }
 
   startGame() {
-    this._store.dispatch(startGameActionCreator({
-      gameid: 'id - ' + Math.trunc(Math.random() * 10000000000),
-      adjacentElementsToWin: this.adjsize,
-      colSize: this.colsize,
-      rowSize: this.rowsize,
-      movelist: [],
-      winner: undefined as any,
-    }));
+    
   }
 
   fblogin() {
@@ -130,6 +131,8 @@ export class GameComponent implements OnInit {
   }
 
   openNewGameComponent() {
-    this._dialog.open(NewGameComponent);
+    // this._dialog.open(NewGameComponent);
+
+    this._router.navigateByUrl('/newgame');
   }
 }

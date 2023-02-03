@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { AWSService } from '../service/aws.service';
+import { AWSService } from '../../service/aws.service';
 
 @Component({
   selector: 'app-user-registration',
@@ -21,4 +21,9 @@ export class UserRegistrationComponent implements OnInit {
     this._aws.createUser(this.username, this.password);
   }
 
+  loginUser() {
+    this._aws.getUser(this.username).subscribe((val) => {
+      console.log('Get request ', val);
+    });
+  }
 }

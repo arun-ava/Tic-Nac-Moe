@@ -4,7 +4,7 @@ import {  IBoard, IMove } from '../../models/Board';
 import { IPlayer } from '../../models/Player';
 
 export const startGameActionCreator = createAction(
-    '[Game] Start Game',
+    '[NewGame] Start Game',
     props<IGameManager>(),
 );
 

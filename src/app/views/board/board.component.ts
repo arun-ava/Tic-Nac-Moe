@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { makeMoveActionCreator } from '../state/actions/board.actions';
-import { boardDataSelector } from '../state/selectors/board.selector';
-import { nextPlayerSelector } from '../state/selectors/game.selector';
-import { IPlayer } from '../models/Player';
+import { boardDataSelector } from '../../state/selectors/board.selector';
+import { IPlayer } from '../../models/Player';
+import { nextPlayerSelector } from '../../state/selectors/game.selector';
+import { makeMoveActionCreator } from '../../state/actions/board.actions';
 
 /**
  * Events - 

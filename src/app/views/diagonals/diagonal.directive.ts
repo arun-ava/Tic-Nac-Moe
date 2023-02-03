@@ -1,14 +1,12 @@
 import { Directive, ElementRef, Input, OnChanges, SimpleChanges, TemplateRef, ViewContainerRef, OnInit } from '@angular/core';
 import { Store } from "@ngrx/store";
-import { winningPositionsSelector } from '../state/selectors/game.selector';
-import { DiagonalType } from "./diagonal.types";
 import { distinctUntilChanged, filter, map } from 'rxjs';
-import { WinDirection, WinPosition } from '../models/GameManager';
-import { getMinorDiagonalLine } from './diagonal.utility';
 import { ColLineComponent } from './col-line/col-line.component';
 import { RowLineComponent } from './row-line/row-line.component';
 import { MajorDiagonalComponent } from './major-diagonal/major-diagonal.component';
 import { MinorDiagonalComponent } from './minor-diagonal/minor-diagonal.component';
+import { winningPositionsSelector } from '../../state/selectors/game.selector';
+import { WinDirection, WinPosition } from '../../models/GameManager';
 
 @Directive({
     selector: '[appdiagonal]',
