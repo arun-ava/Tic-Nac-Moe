@@ -28,6 +28,9 @@ import { GameComponent } from './views/game/game.component';
 import { AppRoutingModule } from './app.routing';
 import { HomeAuthGuard } from './service/home-auth-guard.service';
 import { NewGameAuthGuard } from './service/new-game-auth-guard.service';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = { url: 'wss://ohuqb4f8pi.execute-api.us-west-1.amazonaws.com/ticnacmoeStage_WS', options: {} };
 
 @NgModule({
   declarations: [
@@ -50,6 +53,7 @@ import { NewGameAuthGuard } from './service/new-game-auth-guard.service';
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    SocketIoModule.forRoot(config),
     StoreModule.forRoot({
       players: playerReducer,
       board: boardReducer,
