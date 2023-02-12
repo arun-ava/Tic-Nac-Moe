@@ -1,16 +1,16 @@
 <div class="flex-column">
-    <div class="flex-row">
- 
-        <input placeholder="rows" [formControl]="row">
-        <input placeholder="columns" [formControl]="column">
-        <input placeholder="adjacent" [formControl]="adjacent">
-        <button (click)="startGame()">Start Game</button>
-        <button (click)="fblogin()">FB Login</button>
-        <button (click)="fbfriends()">FB firends</button>
-        <button (click)="openRegisterComponent()">Register</button>
-        <button (click)="openNewGameComponent()">New Game</button>
+    <div class="flex-row" style="width: 100%;">
+        <mat-label style="flex-grow: 2;  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Welcome, {{accountusername$ | async}}</mat-label>
+        <!-- <input placeholder="rows" [formControl]="row"> -->
+        <!-- <input placeholder="columns" [formControl]="column"> -->
+        <!-- <input placeholder="adjacent" [formControl]="adjacent"> -->
+        <!-- <button (click)="startGame()">Start Game</button> -->
+        <!-- <button (click)="fblogin()">FB Login</button> -->
+        <!-- <button (click)="fbfriends()">FB firends</button> -->
+        <!-- <button (click)="openRegisterComponent()">Register</button> -->
+        <button style="justify-self: end;" mat-flat-button color="primary" (click)="openNewGameComponent()">New Game</button>
     </div>
-        <app-players></app-players>
+        <!-- <app-players></app-players> -->
         <app-board style="width: fit-content;"></app-board>
 
 </div>

@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AppConfigService } from '../../service/app.config.service';
 import { setWinnerActionCreator } from '../../state/actions/game.actions';
 import { winnerNotifier } from '../../state/selectors/game.selector';
+import { accountUsernameSelector } from '../../state/selectors/account.selector';
 /**
  * Events -
  * 1> Start game
@@ -28,6 +29,8 @@ export class GameComponent implements OnInit {
   rowsize = 0;
   colsize = 0;
   adjsize = 0;
+
+  accountusername$ = this._store.select(accountUsernameSelector);
 
   constructor(
     private _store: Store,
