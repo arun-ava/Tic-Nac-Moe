@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { playerReducer } from './state/reducers/player.reducer';
 import { boardReducer } from './state/reducers/board.reducer';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,11 +27,18 @@ import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
 import { GameComponent } from './views/game/game.component';
 import { AppRoutingModule } from './app.routing';
-import { HomeAuthGuard } from './service/home-auth-guard.service';
+import { AuthGuard } from './service/auth-guard.service';
 import { NewGameAuthGuard } from './service/new-game-auth-guard.service';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { AccountEffects } from './state/effects/account.effects';
+import { accountReducer } from './state/reducers/account.reducer';
 
-const config: SocketIoConfig = { url: 'wss://ohuqb4f8pi.execute-api.us-west-1.amazonaws.com/ticnacmoeStage_WS', options: {} };
+const config: SocketIoConfig = { 
+  url: 'wss://pnb0cghyfe.execute-api.us-west-1.amazonaws.com/production/', 
+  options: {
+    transports: ["websocket"],
+  },
+};
 
 @NgModule({
   declarations: [
@@ -53,12 +61,16 @@ const config: SocketIoConfig = { url: 'wss://ohuqb4f8pi.execute-api.us-west-1.am
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    SocketIoModule.forRoot(config),
+    // SocketIoModule.forRoot(config),
     StoreModule.forRoot({
       players: playerReducer,
       board: boardReducer,
-      game: gameReducer,
+      games: gameReducer,
+      account: accountReducer,
     }, {}),
+    EffectsModule.forRoot([
+      AccountEffects
+    ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     MaterialModule,
     BrowserAnimationsModule,
@@ -81,8 +93,9 @@ const config: SocketIoConfig = { url: 'wss://ohuqb4f8pi.execute-api.us-west-1.am
       },
       multi: true
     },
-    HomeAuthGuard,
+    AuthGuard,
     NewGameAuthGuard,
+    
   ],
   bootstrap: [AppComponent],
 })

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppConfigService } from './app.config.service';
 import { catchError, map, of, Subject } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { IAccount } from '../models/Account';
 
 @Injectable({ providedIn: 'root' })
 export class AWSService {
@@ -22,28 +23,50 @@ export class AWSService {
     createUser(username: string, password: string) {
         const url = this._appConfigService.getConfig()[this.aws_api_gateway_endpoint] + this.user_base_endpoint;
 
-        this._httpClient.post(
+        return this._httpClient.post(
             url,
             btoa(JSON.stringify({
                 name: username,
                 password: password,
             }))
-        ).pipe(
+        )
+        .pipe(
             map((val) => {
                 console.log("Success. User created ", val);
                 return val;
             }),
             catchError(err => {
                 console.log("catchError Error during creating user ", err);
-                return of(err);
+                throw (err);
             }),
             finalize(() => {
                 console.log("Request complete");
             })
-        ).subscribe();
+        )
+        // .subscribe();
     }
 
     getUser(username: string) {
+        const url = this._appConfigService.getConfig()[this.aws_api_gateway_endpoint] + this.user_base_endpoint + '/' + username ;
+
+        return this._httpClient.get(
+            url,
+        ).pipe(
+            map((val) => {
+                console.log("User details fetched ", val);
+                return val as IAccount;
+            }),
+            catchError(err => {
+                console.log("catchError Error during fetching user ", err);
+                throw (err);
+            }),
+            finalize(() => {
+                console.log("Request complete");
+            })
+        );
+    }
+
+    signInUser(username: string, password: string) {
         const url = this._appConfigService.getConfig()[this.aws_api_gateway_endpoint] + this.user_base_endpoint + '/' + username ;
 
         return this._httpClient.get(
@@ -55,7 +78,7 @@ export class AWSService {
             }),
             catchError(err => {
                 console.log("catchError Error during fetching user ", err);
-                return of(err);
+                throw (err);
             }),
             finalize(() => {
                 console.log("Request complete");

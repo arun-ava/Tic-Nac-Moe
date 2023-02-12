@@ -39,7 +39,10 @@ export class NewGameComponent implements OnInit {
       colSize: Number.parseInt(this.columns),
       rowSize: Number.parseInt(this.rows),
       movelist: [],
-      winner: undefined as any,
+      winner: undefined,
+      board: undefined,
+      challenger: undefined,
+      challenged: undefined
     }));
 
     // TODO: DO USING EFFECTS

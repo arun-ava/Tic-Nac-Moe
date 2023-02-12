@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { catchError, finalize, map, of } from 'rxjs';
 import { AWSService } from '../../service/aws.service';
+import { initiateSignInAccountActionCreator } from '../../state/actions/account.actions';
 
 @Component({
   selector: 'app-user-registration',
@@ -12,18 +15,35 @@ export class UserRegistrationComponent implements OnInit {
   username!: string;
   password!: string;
 
-  constructor(private _aws: AWSService) { }
+  constructor(private _aws: AWSService, private _store: Store) { }
 
   ngOnInit(): void {
   }
 
   registerUser() {
-    this._aws.createUser(this.username, this.password);
+    this._aws.createUser(this.username, this.password)
+    .pipe(
+          map((val) => {
+              console.log("component Success. User created ", val);
+              return val;
+          }),
+          catchError(err => {
+              console.log("component catchError Error during creating user ", err);
+              return of(err);
+          }),
+          finalize(() => {
+              console.log("component Request complete");
+          })
+      )
+      .subscribe();
   }
 
   loginUser() {
-    this._aws.getUser(this.username).subscribe((val) => {
-      console.log('Get request ', val);
-    });
+    this._store.dispatch(initiateSignInAccountActionCreator({
+      account: {
+        username: this.username,
+        password: this.password,
+      }
+    }));
   }
 }

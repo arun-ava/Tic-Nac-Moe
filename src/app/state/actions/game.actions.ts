@@ -1,11 +1,11 @@
 import {createAction, props} from '@ngrx/store';
-import { IGameManager } from '../../models/GameManager';
+import { IMatch } from '../../models/Match';
 import {  IBoard, IMove } from '../../models/Board';
 import { IPlayer } from '../../models/Player';
 
 export const startGameActionCreator = createAction(
     '[NewGame] Start Game',
-    props<IGameManager>(),
+    props<IMatch>(),
 );
 
 export const checkBoardActionCreator = createAction(

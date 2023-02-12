@@ -1,10 +1,10 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
-import { IGameManager, WinDirection, WinPosition } from '../../models/GameManager';
+import { IMatch, WinDirection, WinPosition } from '../../models/Match';
 import { selectAllPlayers } from './player.selector';
 import { selectBoard } from './board.selector';
 import { initialCellValue } from '../reducers/board.reducer';
 
-export const selectGame = createFeatureSelector<IGameManager>('game');
+export const selectGame = createFeatureSelector<IMatch>('game');
 
 export const nextPlayerSelector  = createSelector(
     selectGame,
