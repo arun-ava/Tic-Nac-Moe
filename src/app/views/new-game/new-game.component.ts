@@ -13,7 +13,7 @@ import { startGameActionCreator } from '../../state/actions/game.actions';
 export class NewGameComponent implements OnInit {
 
   rows: string = '3';
-  columns: string = '3';
+  symbol: string = '';
   adjacents: string = '3';
 
   constructor(private _aws: AWSService,
@@ -26,7 +26,7 @@ export class NewGameComponent implements OnInit {
   startGame() {
 
     console.log("createing new game with rows ", this.rows);
-    console.log("createing new game with columns ", this.columns);
+    console.log("createing new game with symbol ", this.symbol);
 
 
     //TODO REMOVE THIS AND USE EFFECTS AND FETCH STATUS FROM SERVER AND CREATE INSTEAD OF CREATING HERE
@@ -36,12 +36,15 @@ export class NewGameComponent implements OnInit {
       // gameid: 'id - ' + Math.trunc(Math.random() * 10000000000),
       gameid: id,
       adjacentElementsToWin: Number.parseInt(this.adjacents),
-      colSize: Number.parseInt(this.columns),
+      colSize: Number.parseInt(this.rows),
       rowSize: Number.parseInt(this.rows),
       movelist: [],
       winner: undefined,
       board: undefined,
-      challenger: undefined,
+      challenger: {
+        name: 'aru',
+        symbol: this.symbol,
+      },
       challenged: undefined
     }));
 

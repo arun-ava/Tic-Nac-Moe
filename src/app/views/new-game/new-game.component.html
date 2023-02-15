@@ -1,16 +1,11 @@
 <!-- <h1 mat-dialog-title> -->
-    <h1>New Game</h1>
+    <h1 mat-dialog-title>New Game</h1>
 <!-- </h1> -->
 <!-- <div mat-dialog-content> -->
     <form>
         <mat-form-field style="width: 100%;">
-            <mat-label>Enter No. Of Rows</mat-label>
+            <mat-label>Enter Size (in Boxes)</mat-label>
             <input matInput name="rows" [(ngModel)]="rows">
-        </mat-form-field>
-        
-        <mat-form-field style="width: 100%;">
-            <mat-label>Enter No. Of Columns</mat-label>
-            <input name="columns" matInput [(ngModel)]="columns">
         </mat-form-field>
 
         <mat-form-field style="width: 100%;">
@@ -18,6 +13,16 @@
             <input name="adjacents" matInput [(ngModel)]="adjacents">
         </mat-form-field>
     </form>
+
+    <mat-label>Select Symbol (X or O)</mat-label>
+    <br><br>
+    <mat-button-toggle-group [(ngModel)]="symbol">
+        <mat-button-toggle value="X">X</mat-button-toggle>
+        <mat-button-toggle value="O">O</mat-button-toggle>
+    </mat-button-toggle-group>
+    <br>
+    <br>
+    <br>
 <!-- </div> -->
 <!-- <div mat-dialog-actions> -->
   <button mat-raised-button secondary (click)="closeDialog()">Go Back</button>
