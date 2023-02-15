@@ -1,9 +1,9 @@
 
-<div class='board board-structure' >
-    <div class = "row row-structure" *ngFor="let row of board$ | async; let r=index;">
-        <div class="column column-structure" *ngFor="let column of row; let c=index;" (click)="cellClicked(r,c)">
+<div class='board' >
+    <div class = "row-structure" *ngFor="let row of board$ | async; let r=index;">
+        <div class="column" *ngFor="let column of row; let c=index;" (click)="cellClicked(r,c)">
             <ng-container *appdiagonal="{row: r, col: c}" >
-                <div class="cell cell-structure">{{column}}</div> 
+                {{column}}
             </ng-container>
         </div>
     </div>
