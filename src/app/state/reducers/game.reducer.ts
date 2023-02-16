@@ -1,6 +1,7 @@
 import {createReducer, on} from '@ngrx/store';
-import { legalMoveActionCreator, startGameActionCreator } from '../actions/game.actions';
+import { updateLastMovedByActionCreator, startGameActionCreator } from '../actions/game.actions';
 import { IMatch } from '../../models/Match';
+import { map } from 'rxjs';
 
 export const initialStateMatch:Readonly<IMatch> = {
     gameid: '',
@@ -12,6 +13,7 @@ export const initialStateMatch:Readonly<IMatch> = {
     board: undefined,
     challenger: undefined,
     challenged: undefined,
+    lastMovedBy: undefined,
 };
 
 export const initialState:Readonly<IMatch[]> = [];
@@ -39,14 +41,26 @@ export const gameReducer = createReducer(
                 },
                 challenger: challenger,
                 challenged: challenged,
+                lastMovedBy: undefined,
             }
         ]
     }),
 
-    // on(legalMoveActionCreator, (state, {move}) => {
-    //     // return { ...state, movelist: [...state.movelist, move],  };
-    //     return { ...state, movelist: [...state.movelist, move],  };
-    // }),
+    on(updateLastMovedByActionCreator, (state, {player, gameid}) => {
+        // return { ...state, movelist: [...state.movelist, move],  };
+        return [...state].map((val) => { //TODO: READ THIS AGAIN. VErY IMPORTANT WAY TO CHANGE NESTED VALUES
+            if(val.gameid === gameid) { 
+                val = {
+                    ...val,
+                    lastMovedBy: {
+                        name: player.name,
+                        symbol: player.symbol,
+                    }
+                }
+            }
+            return val;
+        });
+    }),
 );
 
 

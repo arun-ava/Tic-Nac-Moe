@@ -4,47 +4,47 @@ import { selectAllPlayers } from './player.selector';
 import { selectBoard } from './board.selector';
 import { initialCellValue } from '../reducers/board.reducer';
 
-export const selectGame = createFeatureSelector<IMatch>('game');
+export const selectAllGames = createFeatureSelector<IMatch[]>('games');
 
 export const nextPlayerSelector  = createSelector(
-    selectGame,
+    selectAllGames,
     selectAllPlayers,
     (game, players) => {
-        return players[game.movelist.length % players.length];
+        return players[game[0].movelist.length % players.length];
     }
 );
 
 export const currentPlayerSelector  = createSelector(
-    selectGame,
+    selectAllGames,
     selectAllPlayers,
     (game, players) => {
-        return players[(game.movelist.length-1) % players.length];
+        return players[(game[0].movelist.length-1) % players.length];
     }
 );
 
 export const winnerNotifier  = createSelector(
-    selectGame,
+    selectAllGames,
     selectAllPlayers,
     selectBoard,
     currentPlayerSelector,
     (game, players, board, currentPlayer) => {
-        return checkboard(game.movelist[game.movelist.length-1]?.row, 
-            game.movelist[game.movelist.length-1]?.column, 
-            game.movelist[game.movelist.length-1]?.symbol,
-            board.board, game.adjacentElementsToWin).length > 0 ? currentPlayer : undefined;
+        return checkboard(game[0].movelist[game[0].movelist.length-1]?.row, 
+            game[0].movelist[game[0].movelist.length-1]?.column, 
+            game[0].movelist[game[0].movelist.length-1]?.symbol,
+            board.board, game[0].adjacentElementsToWin).length > 0 ? currentPlayer : undefined;
     }
 );
 
 export const winningPositionsSelector  = createSelector(
-    selectGame,
+    selectAllGames,
     selectAllPlayers,
     selectBoard,
     currentPlayerSelector,
     (game, players, board, currentPlayer) => {
-        let winningPositions = checkboard(game.movelist[game.movelist.length-1]?.row, 
-            game.movelist[game.movelist.length-1]?.column, 
-            game.movelist[game.movelist.length-1]?.symbol,
-            board.board, game.adjacentElementsToWin); 
+        let winningPositions = checkboard(game[0].movelist[game[0].movelist.length-1]?.row, 
+            game[0].movelist[game[0].movelist.length-1]?.column, 
+            game[0].movelist[game[0].movelist.length-1]?.symbol,
+            board.board, game[0].adjacentElementsToWin); 
             return winningPositions.length > 0 ? winningPositions : [];
     }
 );

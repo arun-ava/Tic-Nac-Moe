@@ -5,14 +5,14 @@ import {getAllPlayersActionCreator, addPlayerActionCreator } from '../actions/pl
 // export const initialState: ReadonlyArray<IPlayer> = [];
 
 export const initialState: ReadonlyArray<IPlayer> = [
-    {
-        name: 'arunava',
-        symbol: 'O',
-    },
-    {
-        name: 'chakraborty',
-        symbol: '$',
-    },
+    // {
+    //     name: 'arunava',
+    //     symbol: 'O',
+    // },
+    // {
+    //     name: 'chakraborty',
+    //     symbol: 'X',
+    // },
 ];
 
 export const playerReducer = createReducer(

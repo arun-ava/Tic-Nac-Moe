@@ -3,7 +3,13 @@
     <div class = "row-structure" *ngFor="let row of board$ | async; let r=index;">
         <div class="column" *ngFor="let column of row; let c=index;" (click)="cellClicked(r,c)">
             <ng-container *appdiagonal="{row: r, col: c}" >
-                {{column}}
+                <ng-container *ngIf="column==='X'">
+                    <div class="icon-container"><mat-icon class="icon-styles" svgIcon="cross"></mat-icon></div>
+                    
+                </ng-container>
+                <ng-container *ngIf="column==='O'">
+                    <div class="icon-container"><mat-icon class="icon-styles" svgIcon="circle"></mat-icon></div>
+                </ng-container>
             </ng-container>
         </div>
     </div>

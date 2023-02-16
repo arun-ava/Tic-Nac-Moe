@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-// import { Socket } from 'ngx-socket-io';
 import { webSocket } from 'rxjs/webSocket';
- 
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,17 @@ import { webSocket } from 'rxjs/webSocket';
 export class AppComponent implements OnInit{
   title = 'NicNacNoe';
 
-  // constructor(private _socket: Socket) {}
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer){
+    this.matIconRegistry.addSvgIcon(
+      "cross",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/cross.svg")
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      "circle",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/circle.svg")
+    );
+  }
 
   startGame() {}
 

@@ -3,7 +3,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AWSService } from '../../service/aws.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { startGameActionCreator } from '../../state/actions/game.actions';
+import { selectMatchActionCreator, startGameActionCreator } from '../../state/actions/game.actions';
+import { accountUsernameSelector } from '../../state/selectors/account.selector';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-new-game',
@@ -13,14 +15,20 @@ import { startGameActionCreator } from '../../state/actions/game.actions';
 export class NewGameComponent implements OnInit {
 
   rows: string = '3';
-  symbol: string = '';
+  symbol: string = 'X';
   adjacents: string = '3';
+
+  private _username='';
 
   constructor(private _aws: AWSService,
     private _router: Router,
     private _store: Store) { }
 
   ngOnInit(): void {
+    this._store.select(accountUsernameSelector).subscribe((val) => {
+      if(val)
+      this._username = val;
+    })
   }
 
   startGame() {
@@ -30,10 +38,8 @@ export class NewGameComponent implements OnInit {
 
 
     //TODO REMOVE THIS AND USE EFFECTS AND FETCH STATUS FROM SERVER AND CREATE INSTEAD OF CREATING HERE
-
     let id = Date.now().toString();
     this._store.dispatch(startGameActionCreator({
-      // gameid: 'id - ' + Math.trunc(Math.random() * 10000000000),
       gameid: id,
       adjacentElementsToWin: Number.parseInt(this.adjacents),
       colSize: Number.parseInt(this.rows),
@@ -42,10 +48,15 @@ export class NewGameComponent implements OnInit {
       winner: undefined,
       board: undefined,
       challenger: {
-        name: 'aru',
+        name: this._username,
         symbol: this.symbol,
       },
-      challenged: undefined
+      challenged: undefined,
+      lastMovedBy: undefined,
+    }));
+
+    this._store.dispatch(selectMatchActionCreator({
+      gameid: id,
     }));
 
     // TODO: DO USING EFFECTS

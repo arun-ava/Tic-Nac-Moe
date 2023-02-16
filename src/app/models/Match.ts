@@ -11,6 +11,7 @@ export interface IMatch {
     board: IBoard | undefined;
     challenger: IPlayer | undefined;
     challenged: IPlayer | undefined;
+    lastMovedBy: IPlayer | undefined;
 }
 
 export interface WinPosition {

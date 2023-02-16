@@ -32,6 +32,7 @@ import { NewGameAuthGuard } from './service/new-game-auth-guard.service';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AccountEffects } from './state/effects/account.effects';
 import { accountReducer } from './state/reducers/account.reducer';
+import { currentGameReducer } from './state/reducers/current-game.reducer';
 
 const config: SocketIoConfig = { 
   url: 'wss://pnb0cghyfe.execute-api.us-west-1.amazonaws.com/production/', 
@@ -63,10 +64,11 @@ const config: SocketIoConfig = {
     AppRoutingModule,
     // SocketIoModule.forRoot(config),
     StoreModule.forRoot({
-      players: playerReducer,
+      // players: playerReducer,
       board: boardReducer,
       games: gameReducer,
       account: accountReducer,
+      currentGame: currentGameReducer,
     }, {}),
     EffectsModule.forRoot([
       AccountEffects

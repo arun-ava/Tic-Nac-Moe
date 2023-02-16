@@ -17,8 +17,12 @@ export const setWinnerActionCreator = createAction(
     props<IPlayer>(),
 )
 
-export const legalMoveActionCreator = createAction(
-    '[Board] Make Move',
-    props<{move: IMove}>()
+export const updateLastMovedByActionCreator = createAction(
+    '[Board] Update Last Moved By',
+    props<{player: IPlayer, gameid: string}>()
 );
 
+export const selectMatchActionCreator = createAction(
+    '[Game] Select Match',
+    props<{gameid: string}>()
+)

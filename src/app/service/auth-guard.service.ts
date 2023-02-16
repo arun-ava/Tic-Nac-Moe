@@ -13,8 +13,8 @@ export class AuthGuard implements CanActivate {
       return this._store.select(accountUsernameSelector).pipe(
         
         map((val) => {
-        // return val !== undefined;
-        return true;
+        return val !== undefined;
+        // return true;
         }),
         tap((val) => {
           if(!val)
