@@ -1,0 +1,24 @@
+<div style="display: flex; flex-direction: row; width: 100%; overflow-x: auto;">
+    <ng-container *ngFor="let game of (allGames$ | async)">
+        <div style="display: flex; flex-direction: column; max-width: 30vmin; height: 30vh; font-size: 4vmin; background-color: #3f51b5; color: white; border: 2px solid pink; border-radius: 5px; padding: 7px;">
+            <mat-label>Game Type</mat-label>
+            <mat-label>{{game.board?.board?.length}} X {{game.board?.board?.length}}</mat-label>
+            <mat-label>Last Played By</mat-label>
+            <mat-label>{{game?.lastMovedBy}}</mat-label>
+            <br>
+            <mat-label class="apply-ellipsis">aaaaaaaaaaaaaaaaaaa{{game.challenger?.name}}</mat-label>
+            <mat-label>vs</mat-label> 
+            <mat-label class="apply-ellipsis">Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbx{{game.challenged?.name}}</mat-label>
+            
+            <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
+                <button mat-icon-button>
+                    <mat-icon>favorite</mat-icon>
+                </button>
+                <button mat-icon-button>
+                    <mat-icon>share</mat-icon>
+                </button>
+            </div>
+            
+        </div>
+    </ng-container>
+</div>

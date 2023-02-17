@@ -33,6 +33,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AccountEffects } from './state/effects/account.effects';
 import { accountReducer } from './state/reducers/account.reducer';
 import { currentGameReducer } from './state/reducers/current-game.reducer';
+import { CurrentGamesComponent } from './views/current-games/current-games.component';
 
 const config: SocketIoConfig = { 
   url: 'wss://pnb0cghyfe.execute-api.us-west-1.amazonaws.com/production/', 
@@ -55,7 +56,8 @@ const config: SocketIoConfig = {
     UserRegistrationComponent,
     LoginComponent,
     NewGameComponent,
-    HomeComponent
+    HomeComponent,
+    CurrentGamesComponent
   ],
   imports: [
     BrowserModule,

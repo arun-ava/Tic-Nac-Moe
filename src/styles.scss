@@ -2,6 +2,7 @@
 @use '@angular/material' as mat;
 @include mat.core();
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 .flex-row {
     display: flex;
@@ -15,4 +16,11 @@
 
 * {
     font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.apply-ellipsis {
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    display: block;
 }

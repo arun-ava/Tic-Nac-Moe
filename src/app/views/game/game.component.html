@@ -1,6 +1,6 @@
 <div class="flex-column">
     <div class="flex-row" style="width: 100%;">
-        <mat-label style="flex-grow: 2;  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Welcome, {{accountusername$ | async}}</mat-label>
+        <mat-label class="apply-ellipsis" style="flex-grow: 2;  ">Welcome, {{accountusername$ | async}}</mat-label>
         <!-- <input placeholder="rows" [formControl]="row"> -->
         <!-- <input placeholder="columns" [formControl]="column"> -->
         <!-- <input placeholder="adjacent" [formControl]="adjacent"> -->
@@ -12,5 +12,5 @@
     </div>
         <!-- <app-players></app-players> -->
         <app-board></app-board>
-
+        <app-games></app-games>
 </div>

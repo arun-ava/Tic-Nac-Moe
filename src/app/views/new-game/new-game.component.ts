@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { selectMatchActionCreator, startGameActionCreator } from '../../state/actions/game.actions';
 import { accountUsernameSelector } from '../../state/selectors/account.selector';
-import { map } from 'rxjs';
+import { catchError, finalize, map } from 'rxjs';
 
 @Component({
   selector: 'app-new-game',
@@ -39,7 +39,7 @@ export class NewGameComponent implements OnInit {
 
     //TODO REMOVE THIS AND USE EFFECTS AND FETCH STATUS FROM SERVER AND CREATE INSTEAD OF CREATING HERE
     let id = Date.now().toString();
-    this._store.dispatch(startGameActionCreator({
+    let newgame = {
       gameid: id,
       adjacentElementsToWin: Number.parseInt(this.adjacents),
       colSize: Number.parseInt(this.rows),
@@ -53,7 +53,8 @@ export class NewGameComponent implements OnInit {
       },
       challenged: undefined,
       lastMovedBy: undefined,
-    }));
+    };
+    this._store.dispatch(startGameActionCreator(newgame));
 
     this._store.dispatch(selectMatchActionCreator({
       gameid: id,
@@ -84,6 +85,18 @@ export class NewGameComponent implements OnInit {
     } else {
       alert("Your browser doesn't support the Share Intent");
     }
+
+    this._aws.createGame(newgame).pipe(
+      map((val) => {
+          return val;
+      }),
+      catchError(err => {
+          throw (err);
+      }),
+      finalize(() => {
+        this._aws.getPlayerGames(this._username).subscribe();
+      }))
+    .subscribe();
 
     this._navigateHome();
   }

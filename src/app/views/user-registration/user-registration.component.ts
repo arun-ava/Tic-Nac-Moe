@@ -12,8 +12,8 @@ import { initiateSignInAccountActionCreator } from '../../state/actions/account.
 })
 export class UserRegistrationComponent implements OnInit {
 
-  username!: string;
-  password!: string;
+  username: string = 'a';
+  password: string = 'a';
 
   constructor(private _aws: AWSService, private _store: Store) { }
 
