@@ -1,4 +1,4 @@
-import { createSelector, createFeatureSelector, select } from '@ngrx/store';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { IAccount } from '../../models/Account';
 
 export const selectAccount = createFeatureSelector<IAccount>('account');

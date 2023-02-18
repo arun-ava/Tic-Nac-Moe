@@ -1,10 +1,10 @@
-<div style="display: flex; flex-direction: row; width: 100%; overflow-x: auto;">
+<div style="padding: 7px; display: flex; flex-direction: row; width: 100%; overflow-x: auto;">
     <ng-container *ngFor="let game of (allGames$ | async)">
-        <div style="display: flex; flex-direction: column; max-width: 30vmin; height: 30vh; font-size: 4vmin; background-color: #3f51b5; color: white; border: 2px solid pink; border-radius: 5px; padding: 7px;">
+        <div (click)="selectGame(game)" style="display: flex; flex-direction: column; max-width: 30vmin; height: 30vh; font-size: 4vmin; background-color: #3f51b5; color: white; border: 2px solid pink; border-radius: 5px; ">
             <mat-label>Game Type</mat-label>
             <mat-label>{{game.board?.board?.length}} X {{game.board?.board?.length}}</mat-label>
             <mat-label>Last Played By</mat-label>
-            <mat-label>{{game?.lastMovedBy}}</mat-label>
+            <mat-label>{{game?.lastMovedBy?.name}}</mat-label>
             <br>
             <mat-label class="apply-ellipsis">aaaaaaaaaaaaaaaaaaa{{game.challenger?.name}}</mat-label>
             <mat-label>vs</mat-label> 
@@ -12,10 +12,10 @@
             
             <div style="display: flex; flex-direction: row; justify-content: space-evenly;">
                 <button mat-icon-button>
-                    <mat-icon>favorite</mat-icon>
+                    <mat-icon>play_arrow</mat-icon>
                 </button>
                 <button mat-icon-button>
-                    <mat-icon>share</mat-icon>
+                    <mat-icon>delete</mat-icon>
                 </button>
             </div>
             

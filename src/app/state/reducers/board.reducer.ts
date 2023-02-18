@@ -11,12 +11,12 @@ export const initialCellValue = '';
 
 export const boardReducer = createReducer(
     initialState,
-    on(makeMoveActionCreator, (state, {move}) => {
-        return {
-            ...state,
-            board: _markBoard(state.board, move.row, move.column, move.symbol),
-        }
-    }),
+    // on(makeMoveActionCreator, (state, {move}) => {
+    //     return {
+    //         ...state,
+    //         board: _markBoard(state.board, move.row, move.column, move.symbol),
+    //     }
+    // }),
     on(startGameActionCreator, (state, gamestate) => {
         return {
             ...state,
@@ -26,17 +26,7 @@ export const boardReducer = createReducer(
 );
 
 
-function _markBoard(board: string[][], row: number, col: number, symbol: string): string[][] {
-    return board.map((value: string[], r: number) => {
-        return value.map((val: string, c: number) => {
-            if(r === row && c === col && val === initialCellValue) {
-                return symbol
-            } else {
-                return val
-            }
-        })
-    }) as any; //TODO : fix this. see why map does not return a string[][] even though it is working on a string [][]
-}
+
 
 function getBoard(row: number, col: number) {
     let t = [];

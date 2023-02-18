@@ -26,7 +26,7 @@ export class BoardComponent implements OnInit {
 
   private _currentPlayer!: IPlayer;
   private _lastMovedBy!: IPlayer;
-  private _currentMatch!: IMatch | undefined;
+  currentMatch!: IMatch | undefined;
 
   constructor(private _store: Store) { }
 
@@ -36,7 +36,7 @@ export class BoardComponent implements OnInit {
     });
     
     this._store.select(currentMatchSelector).subscribe((val) => {
-      this._currentMatch = val;
+      this.currentMatch = val;
     })
 
     this._store.select(lastMovedByForCurrentMatchSelector).subscribe((val) => {
@@ -59,11 +59,12 @@ export class BoardComponent implements OnInit {
         column: colindex,
         row: rowindex,
         symbol: this._currentPlayer!.symbol
-      }
+      },
+      gameid: this.currentMatch?.gameid!,
     }));
 
     this._store.dispatch(updateLastMovedByActionCreator({
-      player: this._currentPlayer!, gameid: this._currentMatch?.gameid!,
+      player: this._currentPlayer!, gameid: this.currentMatch?.gameid!,
     }));
   }
 

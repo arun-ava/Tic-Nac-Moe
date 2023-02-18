@@ -1,6 +1,6 @@
 
 <div class='board' >
-    <div class = "row-structure" *ngFor="let row of board$ | async; let r=index;">
+    <div class = "row-structure" *ngFor="let row of currentMatch?.board?.board; let r=index;">
         <div class="column" *ngFor="let column of row; let c=index;" (click)="cellClicked(r,c)">
             <ng-container *appdiagonal="{row: r, col: c}" >
                 <ng-container *ngIf="column==='X'">

@@ -1,6 +1,5 @@
 import {createReducer, on} from '@ngrx/store';
-import { updateLastMovedByActionCreator, startGameActionCreator } from '../actions/game.actions';
-import { IMatch } from '../../models/Match';
+import { startGameActionCreator, selectMatchActionCreator } from '../actions/game.actions';
 import { IGame } from '../../models/Game';
 
 export const initialStateMatch:Readonly<IGame> = {
@@ -18,5 +17,12 @@ export const currentGameReducer = createReducer(
             ...state, 
             currentGameID: gameid,
         }
+    }),
+
+    on(selectMatchActionCreator, (state, {gameid}) => {
+        return {
+            ...state, 
+            currentGameID: gameid,
+        };
     }),
 );

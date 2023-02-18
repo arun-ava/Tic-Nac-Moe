@@ -23,6 +23,6 @@ export const updateLastMovedByActionCreator = createAction(
 );
 
 export const selectMatchActionCreator = createAction(
-    '[Game] Select Match',
+    '[New Game | Current Game ] Select Match',
     props<{gameid: string}>()
 )

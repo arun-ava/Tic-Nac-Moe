@@ -2,6 +2,7 @@ import {createReducer, on} from '@ngrx/store';
 import { updateLastMovedByActionCreator, startGameActionCreator } from '../actions/game.actions';
 import { IMatch } from '../../models/Match';
 import { map } from 'rxjs';
+import { makeMoveActionCreator } from '../actions/board.actions';
 
 export const initialStateMatch:Readonly<IMatch> = {
     gameid: '',
@@ -61,6 +62,21 @@ export const gameReducer = createReducer(
             return val;
         });
     }),
+
+    on(makeMoveActionCreator, (state, {move, gameid}) => {
+        return state
+        .map((val) => {
+            if(val.gameid === gameid) {
+                val = {
+                    ...val,
+                    board : {
+                        board: _markBoard(val?.board?.board!, move.row, move.column, move.symbol)
+                    }
+                }
+            }
+            return val;
+        })
+    }),
 );
 
 
@@ -71,4 +87,16 @@ function _getBoard(row: number, col: number) {
         t.push(new Array<string>(col).fill(initialCellValue));
     }
     return t;
+}
+
+function _markBoard(board: string[][], row: number, col: number, symbol: string): string[][] {
+    return board.map((value: string[], r: number) => {
+        return value.map((val: string, c: number) => {
+            if(r === row && c === col && val === initialCellValue) {
+                return symbol
+            } else {
+                return val
+            }
+        })
+    }) as any; //TODO : fix this. see why map does not return a string[][] even though it is working on a string [][]
 }

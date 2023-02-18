@@ -7,7 +7,7 @@ import { UserRegistrationComponent } from '../user-registration/user-registratio
 import { NewGameComponent } from '../new-game/new-game.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppConfigService } from '../../service/app.config.service';
-import { setWinnerActionCreator } from '../../state/actions/game.actions';
+import { selectMatchActionCreator, setWinnerActionCreator } from '../../state/actions/game.actions';
 import { selectAllGames, winnerNotifier } from '../../state/selectors/game.selector';
 import { accountUsernameSelector } from '../../state/selectors/account.selector';
 import { IMatch } from '../../models/Match';
@@ -33,5 +33,11 @@ export class CurrentGamesComponent implements OnInit {
   }
 
   startGame() {
+  }
+
+  selectGame(game: IMatch) {
+    this._store.dispatch(selectMatchActionCreator({
+      gameid: game.gameid
+    }));
   }
 }
