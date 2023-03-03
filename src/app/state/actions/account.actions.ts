@@ -7,13 +7,13 @@ export const createAccountActionCreator = createAction(
 );
 
 export const initiateSignInAccountActionCreator = createAction(
-    '[User Registration] SignIn Account',
+    '[User Registration | App Component] SignIn Account',
     props<{account: IAccount}>()
 );
 
 export const notifySuccessfulSignInAccountActionCreator = createAction(
     '[User Registration] SignIn Account Successful',
-    props<{username: string}>()
+    props<{account: IAccount}>()
 );
 
 export const notifyUnsuccessfulSignInAccountActionCreator = createAction(

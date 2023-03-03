@@ -1,8 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
-import { updateLastMovedByActionCreator, startGameActionCreator } from '../actions/game.actions';
+import { updateLastMovedByActionCreator, addGamesActionCreator, successfulMoveNotifyingActionCreator, gameCreationSuccessfulNotifyingActionCreator } from '../actions/game.actions';
 import { IMatch } from '../../models/Match';
-import { map } from 'rxjs';
-import { makeMoveActionCreator } from '../actions/board.actions';
 
 export const initialStateMatch:Readonly<IMatch> = {
     gameid: '',
@@ -23,28 +21,43 @@ export const initialCellValue = '';
 
 export const gameReducer = createReducer(
     initialState,
-    on(startGameActionCreator, (state, { gameid, adjacentElementsToWin, colSize, rowSize, movelist, winner, challenger, challenged }) => {
+    on(gameCreationSuccessfulNotifyingActionCreator, (state, { match }) => {
         return [ 
             ...state, {
-                gameid: gameid,
+                gameid: match.gameid,
                 // adjacentElementsToWin: adjacentElementsToWin ? adjacentElementsToWin : state.adjacentElementsToWin,
                 // colSize:  colSize ? colSize : state.colSize,
                 // rowSize:  rowSize ? rowSize : state.rowSize,
                 // movelist: movelist ? movelist : state.movelist,
                 // winner: winner ? winner : state.winner,
-                adjacentElementsToWin: adjacentElementsToWin,
-                colSize:  colSize,
-                rowSize:  rowSize,
-                movelist: movelist,
-                winner: winner,
+                adjacentElementsToWin: match.adjacentElementsToWin,
+                colSize:  match.colSize,
+                rowSize:  match.rowSize,
+                movelist: match.movelist,
+                winner: match.winner,
                 board: {
-                    board: _getBoard(colSize, rowSize),
+                    board: createEmptyBoard(match.colSize, match.rowSize),
                 },
-                challenger: challenger,
-                challenged: challenged,
+                challenger: match.challenger,
+                challenged: match.challenged,
                 lastMovedBy: undefined,
             }
         ]
+    }),
+
+    on(addGamesActionCreator, (state, { matches }) => {
+        return [ 
+            ...state, 
+            ...matches
+            // ...matches.map((val) => {
+            //     return {
+            //         ...val,
+            //         board: {
+            //             board: _getBoard(val.colSize, val.rowSize),
+            //         }
+            //     };
+            // })
+        ];
     }),
 
     on(updateLastMovedByActionCreator, (state, {player, gameid}) => {
@@ -63,7 +76,7 @@ export const gameReducer = createReducer(
         });
     }),
 
-    on(makeMoveActionCreator, (state, {move, gameid}) => {
+    on(successfulMoveNotifyingActionCreator, (state, {gameid, move}) => {
         return state
         .map((val) => {
             if(val.gameid === gameid) {
@@ -80,8 +93,8 @@ export const gameReducer = createReducer(
 );
 
 
-
-function _getBoard(row: number, col: number) {
+// TODO: Move to util
+export function createEmptyBoard(row: number, col: number) {
     let t = [];
     for(let i=0; i<row; i++) {
         t.push(new Array<string>(col).fill(initialCellValue));

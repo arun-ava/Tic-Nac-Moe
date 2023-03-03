@@ -3,9 +3,11 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AWSService } from '../../service/aws.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { selectMatchActionCreator, startGameActionCreator } from '../../state/actions/game.actions';
+import { selectMatchActionCreator, createNewGameActionCreator, notifyNewGameCreationSuccessAction, notifyNewGameCreationFailedAction } from '../../state/actions/game.actions';
 import { accountUsernameSelector } from '../../state/selectors/account.selector';
 import { catchError, finalize, map } from 'rxjs';
+import { createEmptyBoard } from 'src/app/state/reducers/game.reducer';
+import { IMatch } from '../../models/Match';
 
 @Component({
   selector: 'app-new-game',
@@ -39,14 +41,16 @@ export class NewGameComponent implements OnInit {
 
     //TODO REMOVE THIS AND USE EFFECTS AND FETCH STATUS FROM SERVER AND CREATE INSTEAD OF CREATING HERE
     let id = Date.now().toString();
-    let newgame = {
+    let newgame: IMatch = {
       gameid: id,
       adjacentElementsToWin: Number.parseInt(this.adjacents),
       colSize: Number.parseInt(this.rows),
       rowSize: Number.parseInt(this.rows),
       movelist: [],
       winner: undefined,
-      board: undefined,
+      board: {
+        board: createEmptyBoard(Number.parseInt(this.rows), Number.parseInt(this.rows)),
+      },
       challenger: {
         name: this._username,
         symbol: this.symbol,
@@ -54,17 +58,15 @@ export class NewGameComponent implements OnInit {
       challenged: undefined,
       lastMovedBy: undefined,
     };
-    this._store.dispatch(startGameActionCreator(newgame));
+    this._store.dispatch(createNewGameActionCreator({match: newgame}));
 
-    this._store.dispatch(selectMatchActionCreator({
-      gameid: id,
-    }));
+    
 
     // TODO: DO USING EFFECTS
     let loc = window.location.toString();
     let len = loc.length;
     let sub = loc.substring(0, len-1);
-    const text = sub +'?gameid='+id;
+    const text = sub +'/'+id;
     console.log("text to be shared ", text);
     const toBeShared = {
       text,
@@ -85,18 +87,6 @@ export class NewGameComponent implements OnInit {
     } else {
       alert("Your browser doesn't support the Share Intent");
     }
-
-    this._aws.createGame(newgame).pipe(
-      map((val) => {
-          return val;
-      }),
-      catchError(err => {
-          throw (err);
-      }),
-      finalize(() => {
-        this._aws.getPlayerGames(this._username).subscribe();
-      }))
-    .subscribe();
 
     this._navigateHome();
   }

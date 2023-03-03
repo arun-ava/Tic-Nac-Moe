@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { catchError, finalize, map, of } from 'rxjs';
 import { AWSService } from '../../service/aws.service';
@@ -15,7 +16,7 @@ export class UserRegistrationComponent implements OnInit {
   username: string = 'a';
   password: string = 'a';
 
-  constructor(private _aws: AWSService, private _store: Store) { }
+  constructor(private _aws: AWSService, private _store: Store, private _router: Router) { }
 
   ngOnInit(): void {
   }
@@ -45,5 +46,7 @@ export class UserRegistrationComponent implements OnInit {
         password: this.password,
       }
     }));
+
+    this._router.navigateByUrl('/home');
   }
 }

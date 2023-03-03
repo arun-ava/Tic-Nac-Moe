@@ -1,5 +1,5 @@
 import {createReducer, on} from '@ngrx/store';
-import { startGameActionCreator, selectMatchActionCreator } from '../actions/game.actions';
+import { selectMatchActionCreator, gameCreationSuccessfulNotifyingActionCreator } from '../actions/game.actions';
 import { IGame } from '../../models/Game';
 
 export const initialStateMatch:Readonly<IGame> = {
@@ -12,10 +12,10 @@ export const initialState:Readonly<IGame> = {
 
 export const currentGameReducer = createReducer(
     initialState,
-    on(startGameActionCreator, (state, { gameid }) => {
+    on(gameCreationSuccessfulNotifyingActionCreator, (state, { match }) => {
         return {
             ...state, 
-            currentGameID: gameid,
+            currentGameID: match.gameid,
         }
     }),
 

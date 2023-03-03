@@ -27,13 +27,14 @@ import { LoginComponent } from './views/login/login.component';
 import { HomeComponent } from './views/home/home.component';
 import { GameComponent } from './views/game/game.component';
 import { AppRoutingModule } from './app.routing';
-import { AuthGuard } from './service/auth-guard.service';
+import { AuthGuard } from './service/guards/auth-guard.service';
 import { NewGameAuthGuard } from './service/new-game-auth-guard.service';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AccountEffects } from './state/effects/account.effects';
 import { accountReducer } from './state/reducers/account.reducer';
 import { currentGameReducer } from './state/reducers/current-game.reducer';
 import { CurrentGamesComponent } from './views/current-games/current-games.component';
+import { GameEffects } from './state/effects/game.effects';
 
 const config: SocketIoConfig = { 
   url: 'wss://pnb0cghyfe.execute-api.us-west-1.amazonaws.com/production/', 
@@ -73,7 +74,8 @@ const config: SocketIoConfig = {
       currentGame: currentGameReducer,
     }, {}),
     EffectsModule.forRoot([
-      AccountEffects
+      AccountEffects,
+      GameEffects,
     ]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     MaterialModule,
@@ -81,12 +83,6 @@ const config: SocketIoConfig = {
     HttpClientModule
   ],
   providers: [
-    // FaceBookAccountService,
-    // {
-    //   provide: APP_INITIALIZER,
-    //   useFactory: () => facebookSDKInitializer(),
-    //   multi: true
-    // },
     {
       provide: APP_INITIALIZER,
       deps: [AppConfigService],

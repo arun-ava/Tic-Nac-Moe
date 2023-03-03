@@ -9,10 +9,10 @@ export const initialState:Readonly<IAccount> = {
 
 export const accountReducer = createReducer(
     initialState,
-    on(notifySuccessfulSignInAccountActionCreator, (state, { username }) => {
+    on(notifySuccessfulSignInAccountActionCreator, (state, { account }) => {
         return { 
             ...state,
-            username: username,
+            username: account.username,
         }
     }),
 );

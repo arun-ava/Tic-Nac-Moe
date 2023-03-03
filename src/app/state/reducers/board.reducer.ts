@@ -1,6 +1,5 @@
 import {createReducer, on} from '@ngrx/store';
-import { makeMoveActionCreator } from '../actions/board.actions';
-import { startGameActionCreator } from '../actions/game.actions';
+import { gameCreationSuccessfulNotifyingActionCreator } from '../actions/game.actions';
 import { IBoard } from '../../models/Board';
 
 export const initialState:Readonly<IBoard> = {
@@ -11,16 +10,10 @@ export const initialCellValue = '';
 
 export const boardReducer = createReducer(
     initialState,
-    // on(makeMoveActionCreator, (state, {move}) => {
-    //     return {
-    //         ...state,
-    //         board: _markBoard(state.board, move.row, move.column, move.symbol),
-    //     }
-    // }),
-    on(startGameActionCreator, (state, gamestate) => {
+    on(gameCreationSuccessfulNotifyingActionCreator, (state, gamestate) => {
         return {
             ...state,
-            board: getBoard(gamestate.rowSize, gamestate.colSize),
+            board: getBoard(gamestate.match.rowSize, gamestate.match.colSize),
         }
     }),
 );

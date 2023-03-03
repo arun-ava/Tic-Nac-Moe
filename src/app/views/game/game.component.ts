@@ -5,11 +5,12 @@ import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { UserRegistrationComponent } from '../user-registration/user-registration.component';
 import { NewGameComponent } from '../new-game/new-game.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { AppConfigService } from '../../service/app.config.service';
 import { setWinnerActionCreator } from '../../state/actions/game.actions';
 import { winnerNotifier } from '../../state/selectors/game.selector';
 import { accountUsernameSelector } from '../../state/selectors/account.selector';
+
 /**
  * Events -
  * 1> Start game
@@ -22,13 +23,13 @@ import { accountUsernameSelector } from '../../state/selectors/account.selector'
 })
 export class GameComponent implements OnInit {
 
-  row = new FormControl();
-  column = new FormControl();
-  adjacent = new FormControl();
+  // row = new FormControl();
+  // column = new FormControl();
+  // adjacent = new FormControl();
 
-  rowsize = 0;
-  colsize = 0;
-  adjsize = 0;
+  // rowsize = 0;
+  // colsize = 0;
+  // adjsize = 0;
 
   accountusername$ = this._store.select(accountUsernameSelector);
 
@@ -48,23 +49,23 @@ export class GameComponent implements OnInit {
     })
 
     
-    this.row.valueChanges.pipe(
-      debounceTime(400),
-    ).subscribe((val: string) => {
-      this.rowsize = Number.parseInt(val);
-    });
+    // this.row.valueChanges.pipe(
+    //   debounceTime(400),
+    // ).subscribe((val: string) => {
+    //   this.rowsize = Number.parseInt(val);
+    // });
 
-    this.column.valueChanges.pipe(
-      debounceTime(400),
-    ).subscribe((val: string) => {
-      this.colsize = Number.parseInt(val);
-    });
+    // this.column.valueChanges.pipe(
+    //   debounceTime(400),
+    // ).subscribe((val: string) => {
+    //   this.colsize = Number.parseInt(val);
+    // });
 
-    this.adjacent.valueChanges.pipe(
-      debounceTime(400),
-    ).subscribe((val: string) => {
-      this.adjsize = Number.parseInt(val);
-    });
+    // this.adjacent.valueChanges.pipe(
+    //   debounceTime(400),
+    // ).subscribe((val: string) => {
+    //   this.adjsize = Number.parseInt(val);
+    // });
 
     // combineLatest([
     //   this._store.select(selectGame).pipe(distinctUntilChanged()),
@@ -97,17 +98,17 @@ export class GameComponent implements OnInit {
 
     this._store.subscribe()
 
-    this.row.setValue('8');
-    this.column.setValue('8');
+    // this.row.setValue('8');
+    // this.column.setValue('8');
 
-    setTimeout(() => {
-      this.startGame();
-    }, 500);
+    // setTimeout(() => {
+    //   this.startGame();
+    // }, 500);
   }
 
-  startGame() {
+  // startGame() {
     
-  }
+  // }
 
   fblogin() {
     FB.login(function(response) {
@@ -134,8 +135,6 @@ export class GameComponent implements OnInit {
   }
 
   openNewGameComponent() {
-    // this._dialog.open(NewGameComponent);
-
     this._router.navigateByUrl('/newgame');
   }
 }

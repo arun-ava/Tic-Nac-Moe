@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { boardDataSelector } from '../../state/selectors/board.selector';
 import { IPlayer } from '../../models/Player';
-import { nextPlayerSelector } from '../../state/selectors/game.selector';
-import { makeMoveActionCreator } from '../../state/actions/board.actions';
+import { makeMoveActionCreator } from '../../state/actions/game.actions';
 import { currentMatchSelector, lastMovedByForCurrentMatchSelector, playerForCurrentMatchSelector } from '../../state/selectors/current-game.selector';
 import { IMatch } from '../../models/Match';
 import { updateLastMovedByActionCreator } from '../../state/actions/game.actions';
@@ -28,7 +27,7 @@ export class BoardComponent implements OnInit {
   private _lastMovedBy!: IPlayer;
   currentMatch!: IMatch | undefined;
 
-  constructor(private _store: Store) { }
+  constructor(private _store: Store, private _cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this._store.select(playerForCurrentMatchSelector).subscribe((val) => {
@@ -36,6 +35,8 @@ export class BoardComponent implements OnInit {
     });
     
     this._store.select(currentMatchSelector).subscribe((val) => {
+      this.currentMatch = undefined;
+      this._cd.detectChanges();
       this.currentMatch = val;
     })
 
@@ -61,6 +62,7 @@ export class BoardComponent implements OnInit {
         symbol: this._currentPlayer!.symbol
       },
       gameid: this.currentMatch?.gameid!,
+      board: this.currentMatch?.board!,
     }));
 
     this._store.dispatch(updateLastMovedByActionCreator({

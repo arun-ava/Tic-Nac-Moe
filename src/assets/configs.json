@@ -1,3 +1,5 @@
 {
-    "aws-api-gateway-endpoint": "https://9tybwucw64.execute-api.us-west-1.amazonaws.com/ticnacmoeStage"
+    "aws-api-gateway-endpoint": "https://9tybwucw64.execute-api.us-west-1.amazonaws.com/ticnacmoeStage",
+    "aws-amplify-endpoint"    : "https://main.d2dy685ay7gt0i.amplifyapp.com",
+    "aws-ws-connection"       : "wss://iq9iajf7xc.execute-api.us-west-1.amazonaws.com/production"
 }

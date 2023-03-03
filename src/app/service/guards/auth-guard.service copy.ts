@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, map, tap } from 'rxjs';
-import { accountUsernameSelector } from '../state/selectors/account.selector';
+import { accountUsernameSelector } from '../../state/selectors/account.selector';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
@@ -17,8 +17,8 @@ export class AuthGuard implements CanActivate {
         // return true;
         }),
         tap((val) => {
-          if(!val)
-            this._router.navigateByUrl('/auth');
+          // if(!val)
+            // this._router.navigateByUrl('/auth');
         }),
       )
     }
