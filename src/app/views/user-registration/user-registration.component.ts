@@ -47,6 +47,5 @@ export class UserRegistrationComponent implements OnInit {
       }
     }));
 
-    this._router.navigateByUrl('/home');
   }
 }

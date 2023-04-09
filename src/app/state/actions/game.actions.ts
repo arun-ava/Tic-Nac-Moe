@@ -61,7 +61,7 @@ export const fetchAllGamesByUserAction = createAction(
 
 export const makeMoveActionCreator = createAction(
     '[Board] Make Move',
-    props<{move: IMove, gameid: string, board: IBoard}>()
+    props<{move: IMove, gameid: string, board: IBoard, username: string, lastMovedBy: IPlayer}>()
 );
 
 export const successfulMoveNotifyingActionCreator = createAction(

@@ -8,6 +8,10 @@ import { IMatch } from '../models/Match';
 import { IMove, IBoard } from '../models/Board';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { IWSMessageRequest } from '../models/WSMessage';
+import { WSMessageTypes } from '../enums/ws-message';
+import * as AWS from 'aws-sdk';
+import * as SNSClient from 'aws-sdk/clients/sns';
+import { IPlayer } from '../models/Player';
 
 @Injectable({ providedIn: 'root' })
 export class AWSService {
@@ -170,7 +174,7 @@ export class AWSService {
      * @param gameid - gameid of game to join as challenged 
      * @returns Observable of the post call to add a challenged player 
      */
-    joinGame(username: string, gameid: string) {
+    joinGame(username: string, gameid: string): Observable<string | IMatch> {
         const url = this._appConfigService.getConfig()[this.aws_api_gateway_endpoint] 
         + this.game_base_endpoint + '/' + this.user_base_endpoint;
 
@@ -181,6 +185,7 @@ export class AWSService {
             }))).pipe(
             map((val) => {
                 console.log('next val');
+                return val as IMatch;
             }),
             catchError(err => {
                 throw (err);
@@ -192,13 +197,34 @@ export class AWSService {
     }
 
     private _wsConnection!: WebSocketSubject<any>;
-    createWSSConnection() {
+    createWSSConnection(userId: string) {
         this._wsConnection = webSocket(this._appConfigService.getConfig()[this.aws_ws_connection]);
         this._wsConnection.subscribe({
-            next: msg => console.log('ws message received: ' + msg), // Called whenever there is a message from the server.
+            next: msg => console.log('ws message received: ' + JSON.stringify(msg)), // Called whenever there is a message from the server.
             error: err => console.log('websocket error ', err), // Called if at any point WebSocket API signals some kind of error.
             complete: () => console.log('ws complete') // Called when connection is closed (for whatever reason).
            });
+        this.sendWSSMessageToServer({
+            action: 'sendMessage',
+            message: {
+                gameid: undefined,
+                type: WSMessageTypes.REGISTER_USER,
+                username: userId,
+            }
+        });
+    }
+
+    makeMoveWS(username: string, gameid: string, board: IBoard, lastMovedBy: IPlayer) {
+        this.sendWSSMessageToServer({
+            action: 'sendMessage',
+            message: {
+                gameid: gameid,
+                username: username,
+                type: WSMessageTypes.UPDATE_MOVE,
+                board: board,
+                lastMovedBy: lastMovedBy,
+            }
+        });
     }
 
     sendWSSMessageToServer(message: IWSMessageRequest) {
@@ -207,5 +233,19 @@ export class AWSService {
 
     disconnectWSSConnection() {
         this._wsConnection.unsubscribe();
+    }
+
+    subscribeToTopic() {
+        let sns = new AWS.SNS();
+        let snsClient = new SNSClient();
+
+        snsClient
+        sns.confirmSubscription();
+        
+        sns.subscribe((err, data) => {
+            console.log('Topic value');
+            console.log(err);
+            console.log(data);
+        });
     }
 }

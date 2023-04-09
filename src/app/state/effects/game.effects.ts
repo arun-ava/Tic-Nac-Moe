@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { act, Actions, createEffect, ofType } from '@ngrx/effects';
 import { tap, filter, map } from 'rxjs';
 import { AWSService } from '../../service/aws.service';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { addGamesActionCreator, createNewGameActionCreator, fetchAllGamesByUserAction, gameCreationSuccessfulNotifyingActionCreator, gameCreationUnsuccessfulNotifyingActionCreator, makeMoveActionCreator, selectMatchActionCreator, successfulMoveNotifyingActionCreator, unSuccessfulMoveNotifyingActionCreator } from '../actions/game.actions';
+import { addGamesActionCreator, createNewGameActionCreator, failedJoiningGameNotifyingActionCreator, fetchAllGamesByUserAction, gameCreationSuccessfulNotifyingActionCreator, gameCreationUnsuccessfulNotifyingActionCreator, joinGameActionCreator, makeMoveActionCreator, selectMatchActionCreator, successfullyJoinedGameNotifyingActionCreator, successfulMoveNotifyingActionCreator, unSuccessfulMoveNotifyingActionCreator } from '../actions/game.actions';
 import { concatMap } from 'rxjs/operators';
 import { IMatch } from '../../models/Match';
 import { IGame } from '../../models/Game';
@@ -86,19 +86,49 @@ export class GameEffects {
                 };
 
                 console.log('board.board[action.move.row][action.move.column] ', board.board[action.move.row][action.move.column]);
-
                 board.board[action.move.row][action.move.column] = action.move.symbol;
 
-                this._aws.makeMoveByGameID(action.gameid, action.move, board)
+                // this._aws.makeMoveByGameID(action.gameid, action.move, board)
+                // .subscribe({
+                //     next: (n) => {
+                //         this._store.dispatch(successfulMoveNotifyingActionCreator({gameid: action.gameid, move: action.move}));
+                //     },
+                //     error: (e) => {
+                //       this._store.dispatch(unSuccessfulMoveNotifyingActionCreator({gameid: action.gameid, move: action.move}));
+                //     },
+                //     complete: () => {
+                //         this._store.dispatch(successfulMoveNotifyingActionCreator({gameid: action.gameid, move: action.move}));
+                //     }
+                // });
+
+                this._aws.makeMoveWS(action.username, action.gameid, board, action.lastMovedBy);
+            })
+        )},
+        {
+            dispatch: false, // TODO: check Why it is falling in endless loop with dispatch: true
+        }
+    );
+
+    joinGame$ = createEffect(() => { 
+        return this._actions$.pipe(
+            ofType(joinGameActionCreator), // Works as a filter for a particular type of action. can also be done using rxjs filters
+            tap(action => {
+                this._aws.joinGame(action.username, action.gameid)
                   .subscribe({
                     next: (n) => {
-                        this._store.dispatch(successfulMoveNotifyingActionCreator({gameid: action.gameid, move: action.move}));
+                        // this._store.dispatch(successfullyJoinedGameNotifyingActionCreator({username: action.username, gameid: action.gameid}));
+                        console.log("Game joined succefully");
+                        this._store.dispatch(addGamesActionCreator({
+                            matches: [n as IMatch]
+                        }));
                     },
                     error: (e) => {
-                      this._store.dispatch(unSuccessfulMoveNotifyingActionCreator({gameid: action.gameid, move: action.move}));
+                        this._store.dispatch(failedJoiningGameNotifyingActionCreator({username: action.username, gameid: action.gameid}));
+                        console.log("Game joined failed ", e);
                     },
                     complete: () => {
-                        this._store.dispatch(successfulMoveNotifyingActionCreator({gameid: action.gameid, move: action.move}));
+                        this._store.dispatch(successfullyJoinedGameNotifyingActionCreator({username: action.username, gameid: action.gameid}));
+                        console.log("Game joined succefully");
                     }
                 })
             })

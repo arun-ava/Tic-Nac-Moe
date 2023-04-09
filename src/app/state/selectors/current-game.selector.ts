@@ -18,12 +18,17 @@ export const currentMatchSelector = createSelector(
  * Gives the player status for the currently selected match
  */
  export const playerForCurrentMatchSelector  = createSelector(
-    selectAllGames,
     selectCurrentGame,
-    selectAccount,
-    (allgames, currentgame, account) => {
-        let match = allgames.find((game: IMatch) => {return game.gameid === currentgame.currentGameID})!;
-        return match.challenger!.name === account.username ? match.challenger: match.challenged;
+    selectAllGames,
+    // selectAccount,
+    (currentgame, allgames, ) => {
+        try {
+            let match = allgames.find((game: IMatch) => {return game.gameid === currentgame.currentGameID})!;
+            return match.challenger!.name === 'a' ? match.challenger: match.challenged;
+        } catch(e) {
+            // console.log(e);
+            return {};
+        }
     }
 );
 
@@ -34,6 +39,11 @@ export const currentMatchSelector = createSelector(
     selectAllGames,
     selectCurrentGame,
     (allgames, currentgame) => {
-        return allgames.find((game: IMatch) => {return game.gameid === currentgame.currentGameID})!.lastMovedBy;
+        try {
+            return allgames.find((game: IMatch) => {return game.gameid === currentgame.currentGameID})!.lastMovedBy;
+        } catch(e) {
+            // console.log(e);
+            return {};
+        }
     }
 );

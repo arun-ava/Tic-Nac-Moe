@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { debounceTime, distinctUntilChanged, filter } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, combineLatest } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { UserRegistrationComponent } from '../user-registration/user-registration.component';
 import { NewGameComponent } from '../new-game/new-game.component';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { AppConfigService } from '../../service/app.config.service';
-import { setWinnerActionCreator } from '../../state/actions/game.actions';
+import { setWinnerActionCreator, joinGameActionCreator } from '../../state/actions/game.actions';
 import { winnerNotifier } from '../../state/selectors/game.selector';
 import { accountUsernameSelector } from '../../state/selectors/account.selector';
 
@@ -44,9 +44,21 @@ export class GameComponent implements OnInit {
     console.log(this._appconfig.getConfig());
 
     console.log("path param s", this._route.snapshot.queryParamMap.get('gameid'));
-    this._route.queryParams.subscribe((val) =>{
-      console.log('qp  ', val);
-    })
+    
+    combineLatest([
+      this.accountusername$,
+      this._route.paramMap
+    ]).subscribe((val) => {
+        if(val[0] && val[1].get('gameid')) {
+          this._store.dispatch(joinGameActionCreator({
+            username: val[0],
+            gameid: val[1].get('gameid')!
+          }));
+        }
+    });
+
+    
+    
 
     
     // this.row.valueChanges.pipe(

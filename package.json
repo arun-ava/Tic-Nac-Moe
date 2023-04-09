@@ -24,6 +24,7 @@
     "@ngrx/store": "^13.2.0",
     "@ngrx/store-devtools": "^13.1.0",
     "@types/facebook-js-sdk": "^3.3.5",
+    "aws-sdk": "^2.1346.0",
     "ngx-socket-io": "^4.2.0",
     "object-hash": "^3.0.0",
     "rxjs": "~7.5.0",

@@ -61,12 +61,14 @@ export class NewGameComponent implements OnInit {
     this._store.dispatch(createNewGameActionCreator({match: newgame}));
 
     
+    // https://localhost:4200/newgam/1677849779455
+    // https://localhost:4200/home/1677849958308
 
     // TODO: DO USING EFFECTS
     let loc = window.location.toString();
     let len = loc.length;
-    let sub = loc.substring(0, len-1);
-    const text = sub +'/'+id;
+    let sub = loc.substring(0, len-7);
+    const text = sub +'home/'+id;
     console.log("text to be shared ", text);
     const toBeShared = {
       text,

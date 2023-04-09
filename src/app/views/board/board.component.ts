@@ -52,7 +52,7 @@ export class BoardComponent implements OnInit {
 
     if(this._currentPlayer?.name === this._lastMovedBy?.name) {
       console.log("cannot give move twice");
-      return;
+      // return;
     }
 
     this._store.dispatch(makeMoveActionCreator({
@@ -63,6 +63,8 @@ export class BoardComponent implements OnInit {
       },
       gameid: this.currentMatch?.gameid!,
       board: this.currentMatch?.board!,
+      username: this._currentPlayer.name,
+      lastMovedBy: this._currentPlayer
     }));
 
     this._store.dispatch(updateLastMovedByActionCreator({

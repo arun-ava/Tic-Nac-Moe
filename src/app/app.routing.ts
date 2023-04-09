@@ -4,29 +4,27 @@ import { HomeComponent } from './views/home/home.component';
 import { UserRegistrationComponent } from './views/user-registration/user-registration.component';
 import { AuthGuard } from './service/guards/auth-guard.service';
 import { NewGameComponent } from './views/new-game/new-game.component';
-import { NewGameAuthGuard } from './service/new-game-auth-guard.service';
 
 const routes: Routes = [
     
     {
         path: 'newgame',
         component: NewGameComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
     },
     {
         path: 'home/:gameid',
         component: HomeComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
     },
     {
         path: 'home',
         component: HomeComponent,
-        // canActivate: [AuthGuard],
+        canActivate: [AuthGuard],
     },
     {
         path: '**',
         component: UserRegistrationComponent,
-        // canActivate: [!AuthGuard],
     },
 ];
 
@@ -35,6 +33,7 @@ const routes: Routes = [
       RouterModule.forRoot(routes)
     ],
     exports: [RouterModule],
+    providers: []
   })
   export class AppRoutingModule {
   }

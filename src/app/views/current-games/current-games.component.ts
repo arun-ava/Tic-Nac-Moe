@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { debounceTime, distinctUntilChanged, filter, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { UserRegistrationComponent } from '../user-registration/user-registration.component';
 import { NewGameComponent } from '../new-game/new-game.component';
@@ -23,10 +23,13 @@ import { IMatch } from '../../models/Match';
 })
 export class CurrentGamesComponent implements OnInit {
 
-  allGames$!: Observable<IMatch[]>;
+  allGamesReversed$!: Observable<IMatch[]>;
 
   constructor(private _store: Store) {
-    this.allGames$ = this._store.select(selectAllGames);
+    this.allGamesReversed$ = this._store.select(selectAllGames).pipe(map((val) => {
+      let res =  val.slice().reverse();
+      return res;
+    }));
   }
 
   ngOnInit(): void {

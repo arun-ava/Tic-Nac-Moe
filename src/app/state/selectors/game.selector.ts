@@ -18,7 +18,12 @@ export const currentPlayerSelector  = createSelector(
     selectAllGames,
     selectAllPlayers,
     (game, players) => {
-        return players[(game[0].movelist.length-1) % players.length];
+        try {
+            return players[(game[0].movelist.length-1) % players.length];
+        } catch(e) {
+            // console.log("exception ", e);
+            return [];
+        }
     }
 );
 
@@ -28,10 +33,15 @@ export const winnerNotifier  = createSelector(
     selectBoard,
     currentPlayerSelector,
     (game, players, board, currentPlayer) => {
+        try {
         return checkboard(game[0].movelist[game[0].movelist.length-1]?.row, 
             game[0].movelist[game[0].movelist.length-1]?.column, 
             game[0].movelist[game[0].movelist.length-1]?.symbol,
             board.board, game[0].adjacentElementsToWin).length > 0 ? currentPlayer : undefined;
+        } catch(e) {
+            // console.log("Exception ", e);
+            return [];
+        }
     }
 );
 
